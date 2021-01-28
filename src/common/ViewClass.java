@@ -1,5 +1,7 @@
 package common;
 
+import iTextPDF.IiTextPDFService;
+import iTextPDF.IiTextServiceImpl;
 import icecream.IIcecreamService;
 import icecream.IIcecreamServiceImpl;
 import icecream.IcecreamVO;
@@ -50,6 +52,7 @@ public class ViewClass {
 	private final INotifyService iNotifyService = INotifyServiceImpl.getInstance();
 	private final IIcecreamService iIcecreamService = IIcecreamServiceImpl.getInstance();
 	private final IAdminService iAdminService = IAdminServiceImpl.getInstance();
+	private final IiTextPDFService iiTextPDFService = IiTextServiceImpl.getInstance();
 	
 	/**
 	 * 문자열 입력 메서드
@@ -508,10 +511,18 @@ public class ViewClass {
 			}
 			System.out.println("수저 : " + order.getSpoonCount() + "개");
 			System.out.println("∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪");
+			System.out.println("[ 1 ] 영수증 출력");
 			System.out.println("[ 0 ] 뒤로가기");
 			int input = iInput();
-
-			if (input == 0) {
+			if (input == 1) {
+				String filename = iiTextPDFService.makePDF(order_seq);
+				if (filename != null) {
+					System.out.println("출력된 파일명 : " + filename);
+					System.out.println("출력된 영수증을 이메일로 전송합니다.");
+				} else {
+					System.out.println("정상적으로 영수증이 생성되지 않았습니다.");
+				}
+			} else if (input == 0) {
 				return;
 			} else {
 				System.out.println("잘못 입력하셨습니다. 다시 입력해 주세요.");
@@ -1660,22 +1671,31 @@ public class ViewClass {
 			}
 			System.out.println("\n수저 : " + order.getSpoonCount() + "개");
 			System.out.println("--------------------------");
+			System.out.println("[ 1 ] 영수증 출력");
 			if (!order.isRefund()) {
-				System.out.println("[ 1 ] 환불하기");
+				System.out.println("[ 2 ] 환불하기");
 			}
 			System.out.println("[ 0 ] 뒤로가기");
 			int input = iInput();
 
 			if (!order.isRefund()) {
-				if (input == 1) {
+				if (input == 2) {
 					if (refund(order_seq) == 1) {
-						return;
+						continue;
 					} else {
 						System.out.println("환불에 실패하였습니다.");
 					}
 				}
 			}
-			if (input == 0) {
+			if (input == 1) {
+				String filename = iiTextPDFService.makePDF(order_seq);
+				if (filename != null) {
+					System.out.println("출력된 파일명 : " + filename);
+					System.out.println("출력된 영수증을 이메일로 전송합니다.");
+				} else {
+					System.out.println("정상적으로 영수증이 생성되지 않았습니다.");
+				}
+			} else if (input == 0) {
 				return;
 			} else {
 				System.out.println("잘못 입력하셨습니다. 다시 입력해 주세요.");
