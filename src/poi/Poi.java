@@ -2,8 +2,10 @@ package poi;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.List;
+
+import notify.NotifyVO;
 
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -14,21 +16,18 @@ import admin.AdminVO;
 
 public class Poi {
 	public static void main(String[] args) {
-		List<UserVO> userList = getUserList();
-		for (UserVO user : userList) {
-			System.out.println(user.getId());
-			System.out.println(user.getName());
-			System.out.println(user.getPoint());
-			System.out.println(user.getPw());
+		List<NotifyVO> notifyList = getNotifyList();
+		for (NotifyVO notify : notifyList) {
+			System.out.println(notify.getDate());
 		}
 	}
 	
 	public static AdminVO getAdmin() {
 		AdminVO admin = new AdminVO();
 		try {
-			FileInputStream file = new FileInputStream("input\\Database.xlsx");
+			FileInputStream file = new FileInputStream("db\\Database.xlsx");
 			XSSFWorkbook workbook = new XSSFWorkbook(file);
-			XSSFSheet sheet = workbook.getSheetAt(0);
+			XSSFSheet sheet = workbook.getSheet("admin");
 			for (int rowindex = 1; rowindex < sheet.getPhysicalNumberOfRows(); rowindex++) {
 				XSSFRow row = sheet.getRow(rowindex);
 				if (row != null) {
@@ -45,9 +44,9 @@ public class Poi {
 	public static List<UserVO> getUserList() {
 		List<UserVO> userList = new ArrayList<>();
 		try {
-			FileInputStream file = new FileInputStream("input\\Database.xlsx");
+			FileInputStream file = new FileInputStream("db\\Database.xlsx");
 			XSSFWorkbook workbook = new XSSFWorkbook(file);
-			XSSFSheet sheet = workbook.getSheetAt(1);
+			XSSFSheet sheet = workbook.getSheet("userList");
 			for (int rowindex = 1; rowindex < sheet.getPhysicalNumberOfRows(); rowindex++) {
 				
 				XSSFRow row = sheet.getRow(rowindex);
@@ -65,5 +64,30 @@ public class Poi {
 			e.printStackTrace();
 		}
 		return userList;
+	}
+	
+	public static List<NotifyVO> getNotifyList() {
+		List<NotifyVO> notifyList = new ArrayList<>();
+		try {
+			FileInputStream file = new FileInputStream("db\\Database.xlsx");
+			XSSFWorkbook workbook = new XSSFWorkbook(file);
+			XSSFSheet sheet = workbook.getSheet("notifyList");
+			for (int rowindex = 1; rowindex < sheet.getPhysicalNumberOfRows(); rowindex++) {
+				
+				XSSFRow row = sheet.getRow(rowindex);
+				if (row != null) {
+					NotifyVO notify = new NotifyVO();
+					notify.setSeq((int)row.getCell(0).getNumericCellValue());
+					notify.setTitle(row.getCell(1).getStringCellValue());
+					notify.setContents(row.getCell(2).getStringCellValue());
+					notify.setDate(row.getCell(3).getStringCellValue());
+					notify.setReadView((int)row.getCell(4).getNumericCellValue());
+					notifyList.add(notify);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return notifyList;
 	}
 }
