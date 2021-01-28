@@ -40,8 +40,8 @@ import user.IUserServiceImpl;
 import user.UserVO;
 import admin.IAdminService;
 import admin.IAdminServiceImpl;
+import aes256.AES256;
 import db.DBClass;
-import encryption.AES256CipherTest;
 
 public class ViewClass {
 	private UserVO user = null;
@@ -84,6 +84,13 @@ public class ViewClass {
 			}
 		}
 		return input;
+	}
+	
+	
+	String pwInput() {
+		String input = sInput();
+		return AES256.AES_Encode(input);
+	
 	}
 	
 	/**
@@ -321,17 +328,23 @@ public class ViewClass {
 		return point;
 	}
 	
+	
 	/**
 	 * 로그인 뷰 -관리자/사용자 메서드 -아이디 비밀번호값을 받아 database에서 비교
 	 * 
 	 * @author 박세웅
 	 */
 	private void loginView() {
+		int loginCnt = 0;
 		String userId = null;
 		String userPw = null;
 		String message = "";
+		
 
 		while (true) {
+			if(loginCnt >= 5){
+				wrongPw();
+			}
 			System.out.println();
 			if (userId == null) {
 				System.out.println("→ 1. 아이디 입력");
@@ -353,9 +366,7 @@ public class ViewClass {
 				continue;
 			} else if (userPw == null) {
 				System.out.println("비밀번호를 입력하세요.");
-				userPw = sInput();
-				AES256CipherTest aesPw = new AES256CipherTest(userPw);
-				System.out.println(aesPw);
+				userPw = pwInput();
 				continue;
 			}
 
@@ -372,11 +383,42 @@ public class ViewClass {
 				break;
 			}
 
-			message = "아이디 또는 비밀번호를 확인하세요.";
+			loginCnt ++;
+			message = "아이디 또는 비밀번호를 확인하세요. 비밀번호 " + loginCnt + "회 오류";
 			userId = null;
 			userPw = null;
+			
 		}
 	}
+	
+	
+	void wrongPw(){
+		System.out.println("5회 이상 비밀번호를 틀리셨습니다. 로그인 시도를 차단합니다.");
+		System.out.println("[1] 비밀번호 재발급");
+		System.out.println("[0] 뒤로가기");
+		
+		int input = iInput();
+		
+		switch(input){
+		case 1:
+			reissuance();
+			break;
+		case 0:
+			break;
+		}
+	}
+	
+	
+	void reissuance(){
+		System.out.println("가입한 아이디를 입력하세요.");
+		String userId = sInput();
+		
+		iUserService.selectUser(userId);
+//		if (iAdminService.adminLogin(loginInfo)) {
+//			adminMainView();
+		
+	}
+	
 	
 	/**
 	 * -관리자 메인 뷰 -관리자 메서드
@@ -1903,10 +1945,6 @@ public class ViewClass {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
-	
 }
 
 
