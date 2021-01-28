@@ -1925,10 +1925,6 @@ public class ViewClass {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
-	
 }
 
 
