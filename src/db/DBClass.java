@@ -11,6 +11,7 @@ import icecream.IcecreamVO;
 import notify.NotifyVO;
 import orderDetails.OrderDetailsVO;
 import orderInformation.OrderInformationVO;
+import poi.Poi;
 import size.SizeVO;
 import user.UserVO;
 
@@ -20,9 +21,9 @@ public class DBClass {
 	public static int notice_seq = 5;
 	public static int orderDetails_seq = 23;
 	public static int icecream_seq = 31;
-
 	
 	private static DBClass db;
+	
 	private DBClass(){
 		
 	}
@@ -564,7 +565,7 @@ public class DBClass {
 	public boolean insertOrderDetails(List<OrderDetailsVO> orderDetailsList) {
 		return this.orderDetailsList.addAll(orderDetailsList);
 	}
-	
+	/*
 	// 아이스크림 초기화 블럭
 	{
 		IcecreamVO i1 = new IcecreamVO();
@@ -1285,5 +1286,16 @@ public class DBClass {
 	{
 		admin.setId("admin");
 		admin.setPw(AES256.AES_Encode("p@ssW0rd"));
+	}
+	*/
+	
+	{
+		admin = Poi.getAdmin();
+		userList = Poi.getUserList();
+		notifyList = Poi.getNotifyList();
+		sizeList = Poi.getSizeList();
+		icecreamList = Poi.getIcecreamList();
+		orderInformationList = Poi.getOrderInformationList();
+		orderDetailsList = Poi.getOrderDetailsList();
 	}
 }

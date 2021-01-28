@@ -1,16 +1,20 @@
 package poi;
 
+import icecream.IcecreamVO;
+
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import notify.NotifyVO;
+import orderDetails.OrderDetailsVO;
+import orderInformation.OrderInformationVO;
 
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import size.SizeVO;
 import user.UserVO;
 import admin.AdminVO;
 
@@ -89,5 +93,105 @@ public class Poi {
 			e.printStackTrace();
 		}
 		return notifyList;
+	}
+	
+	public static List<SizeVO> getSizeList() {
+		List<SizeVO> sizeList = new ArrayList<>();
+		try {
+			FileInputStream file = new FileInputStream("db\\Database.xlsx");
+			XSSFWorkbook workbook = new XSSFWorkbook(file);
+			XSSFSheet sheet = workbook.getSheet("sizeList");
+			for (int rowindex = 1; rowindex < sheet.getPhysicalNumberOfRows(); rowindex++) {
+				
+				XSSFRow row = sheet.getRow(rowindex);
+				if (row != null) {
+					SizeVO size = new SizeVO();
+					size.setSeq((int)row.getCell(0).getNumericCellValue());
+					size.setName(row.getCell(1).getStringCellValue());
+					size.setGram((int)row.getCell(2).getNumericCellValue());
+					size.setFlavorKinds((int)row.getCell(3).getNumericCellValue());
+					size.setPrice((int)row.getCell(4).getNumericCellValue());
+					size.setActivate(row.getCell(5).getBooleanCellValue());
+					sizeList.add(size);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return sizeList;
+	}
+	
+	public static List<IcecreamVO> getIcecreamList() {
+		List<IcecreamVO> icecreamList = new ArrayList<IcecreamVO>();
+		try {
+			FileInputStream file = new FileInputStream("db\\Database.xlsx");
+			XSSFWorkbook workbook = new XSSFWorkbook(file);
+			XSSFSheet sheet = workbook.getSheet("icecreamList");
+			for (int rowindex = 1; rowindex < sheet.getPhysicalNumberOfRows(); rowindex++) {
+				
+				XSSFRow row = sheet.getRow(rowindex);
+				if (row != null) {
+					IcecreamVO icecream = new IcecreamVO();
+					icecream.setSeq((int)row.getCell(0).getNumericCellValue());
+					icecream.setKinds(row.getCell(1).getStringCellValue());
+					icecream.setStock((int)row.getCell(2).getNumericCellValue());
+					icecream.setActivate(row.getCell(3).getBooleanCellValue());
+					icecreamList.add(icecream);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return icecreamList;
+	}
+	
+	public static List<OrderInformationVO> getOrderInformationList() {
+		List<OrderInformationVO> orderInformationList = new ArrayList<>();
+		try {
+			FileInputStream file = new FileInputStream("db\\Database.xlsx");
+			XSSFWorkbook workbook = new XSSFWorkbook(file);
+			XSSFSheet sheet = workbook.getSheet("orderInformationList");
+			for (int rowindex = 1; rowindex < sheet.getPhysicalNumberOfRows(); rowindex++) {
+				
+				XSSFRow row = sheet.getRow(rowindex);
+				if (row != null) {
+					OrderInformationVO orderInformation = new OrderInformationVO();
+					orderInformation.setSeq((int)row.getCell(0).getNumericCellValue());
+					orderInformation.setUser_id(row.getCell(1).getStringCellValue());
+					orderInformation.setSize_seq((int)row.getCell(2).getNumericCellValue());
+					orderInformation.setSpoonCount((int)row.getCell(3).getNumericCellValue());
+					orderInformation.setHowToPick(row.getCell(4).getStringCellValue());
+					orderInformation.setRefund(row.getCell(5).getBooleanCellValue());
+					orderInformation.setActivate(row.getCell(6).getBooleanCellValue());
+					orderInformationList.add(orderInformation);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return orderInformationList;
+	}
+	
+	public static List<OrderDetailsVO> getOrderDetailsList() {
+		List<OrderDetailsVO> orderDetailsList = new ArrayList<>();
+		try {
+			FileInputStream file = new FileInputStream("db\\Database.xlsx");
+			XSSFWorkbook workbook = new XSSFWorkbook(file);
+			XSSFSheet sheet = workbook.getSheet("orderDetailsList");
+			for (int rowindex = 1; rowindex < sheet.getPhysicalNumberOfRows(); rowindex++) {
+				
+				XSSFRow row = sheet.getRow(rowindex);
+				if (row != null) {
+					OrderDetailsVO orderDetails = new OrderDetailsVO();
+					orderDetails.setSeq((int)row.getCell(0).getNumericCellValue());
+					orderDetails.setOrder_seq((int)row.getCell(1).getNumericCellValue());
+					orderDetails.setIcecream_seq((int)row.getCell(2).getNumericCellValue());
+					orderDetailsList.add(orderDetails);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return orderDetailsList;
 	}
 }
