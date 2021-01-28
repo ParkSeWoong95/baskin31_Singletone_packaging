@@ -1,27 +1,29 @@
 package db;
 
+import icecream.IcecreamVO;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import admin.AdminVO;
-import icecream.IcecreamVO;
 import notify.NotifyVO;
 import orderDetails.OrderDetailsVO;
 import orderInformation.OrderInformationVO;
+import poi.Poi;
 import size.SizeVO;
 import user.UserVO;
+import admin.AdminVO;
 
 public class DBClass {
 	public static int size_seq = 8;
 	public static int orderInformation_seq = 9;
-	public static int notice_seq = 5;
+	public static int notify_seq = 5;
 	public static int orderDetails_seq = 23;
 	public static int icecream_seq = 31;
-
 	
 	private static DBClass db;
+	
 	private DBClass(){
 		
 	}
@@ -33,11 +35,11 @@ public class DBClass {
 		return db;
 	}
 	
-	private List<UserVO> userList = new ArrayList<>();
 	private AdminVO admin = new AdminVO();
+	private List<UserVO> userList = new ArrayList<>();
 	private List<NotifyVO> notifyList = new ArrayList<NotifyVO>();
-	private List<IcecreamVO> icecreamList = new ArrayList<IcecreamVO>();
 	private List<SizeVO> sizeList = new ArrayList<>();
+	private List<IcecreamVO> icecreamList = new ArrayList<IcecreamVO>();
 	private List<OrderInformationVO> orderInformationList = new ArrayList<>();
 	private List<OrderDetailsVO> orderDetailsList = new ArrayList<>();
 	
@@ -564,6 +566,7 @@ public class DBClass {
 		return this.orderDetailsList.addAll(orderDetailsList);
 	}
 	
+	/*
 	// 아이스크림 초기화 블럭
 	{
 		IcecreamVO i1 = new IcecreamVO();
@@ -868,7 +871,7 @@ public class DBClass {
 		UserVO user1 = new UserVO();
 		user1.setId("abcd01");
 		user1.setName("오지란");
-		user1.setPw("abcd0123");
+		user1.setPw(AES256.AES_Encode("abcd0123"));
 		user1.setPoint(10000);
 		user1.setActivate(true);
 		userList.add(user1);
@@ -876,7 +879,7 @@ public class DBClass {
 		UserVO user2 = new UserVO();
 		user2.setId("qwer09");
 		user2.setName("설마음");
-		user2.setPw("qwer0912");
+		user2.setPw(AES256.AES_Encode("qwer0912"));
 		user2.setPoint(7000);
 		user2.setActivate(true);
 		userList.add(user2);
@@ -884,7 +887,7 @@ public class DBClass {
 		UserVO user3 = new UserVO();
 		user3.setId("nex1032");
 		user3.setName("김미소");
-		user3.setPw("miso10321");
+		user3.setPw(AES256.AES_Encode("miso10321"));
 		user3.setPoint(53500);
 		user3.setActivate(true);
 		userList.add(user3);
@@ -892,7 +895,7 @@ public class DBClass {
 		UserVO user4 = new UserVO();
 		user4.setId("wow7777");
 		user4.setName("이영옥");
-		user4.setPw("duddhr777");
+		user4.setPw(AES256.AES_Encode("duddhr777"));
 		user4.setPoint(43700);
 		user4.setActivate(true);
 		userList.add(user4);
@@ -900,7 +903,7 @@ public class DBClass {
 		UserVO user5 = new UserVO();
 		user5.setId("number1");
 		user5.setName("이영준");
-		user5.setPw("dudwns123");
+		user5.setPw(AES256.AES_Encode("dudwns123"));
 		user5.setPoint(56700);
 		user5.setActivate(true);
 		userList.add(user5);
@@ -908,7 +911,7 @@ public class DBClass {
 		UserVO user6 = new UserVO();
 		user6.setId("yung22");
 		user6.setName("이성연");
-		user6.setPw("tjddus123");
+		user6.setPw(AES256.AES_Encode("tjddus123"));
 		user6.setPoint(23500);
 		user6.setActivate(true);
 		userList.add(user6);
@@ -916,7 +919,7 @@ public class DBClass {
 		UserVO user7 = new UserVO();
 		user7.setId("sum09054");
 		user7.setName("박유식");
-		user7.setPw("mun09054");
+		user7.setPw(AES256.AES_Encode("mun09054"));
 		user7.setPoint(12100);
 		user7.setActivate(true);
 		userList.add(user7);
@@ -924,7 +927,7 @@ public class DBClass {
 		UserVO user8 = new UserVO();
 		user8.setId("han6666");
 		user8.setName("고귀남");
-		user8.setPw("jhan1421");
+		user8.setPw(AES256.AES_Encode("jhan1421"));
 		user8.setPoint(15500);
 		user8.setActivate(true);
 		userList.add(user8);
@@ -932,7 +935,7 @@ public class DBClass {
 		UserVO user9 = new UserVO();
 		user9.setId("jia76");
 		user9.setName("김지아");
-		user9.setPw("13d5w312");
+		user9.setPw(AES256.AES_Encode("13d5w312"));
 		user9.setPoint(34500);
 		user9.setActivate(true);
 		userList.add(user9);
@@ -940,7 +943,7 @@ public class DBClass {
 		UserVO user10 = new UserVO();
 		user10.setId("sheep133");
 		user10.setName("양철");
-		user10.setPw("sheep9999");
+		user10.setPw(AES256.AES_Encode("sheep9999"));
 		user10.setPoint(31000);
 		user10.setActivate(true);
 		userList.add(user10);
@@ -948,7 +951,7 @@ public class DBClass {
 		UserVO user11 = new UserVO();
 		user11.setId("dkssud10");
 		user11.setName("고민관");
-		user11.setPw("13rlekffu");
+		user11.setPw(AES256.AES_Encode("13rlekffu"));
 		user11.setPoint(73800);
 		user11.setActivate(true);
 		userList.add(user11);
@@ -956,7 +959,7 @@ public class DBClass {
 		UserVO user12 = new UserVO();
 		user12.setId("rhksrPgud");
 		user12.setName("김나무");
-		user12.setPw("wlkdfj23");
+		user12.setPw(AES256.AES_Encode("wlkdfj23"));
 		user12.setPoint(25300);
 		user12.setActivate(true);
 		userList.add(user12);
@@ -964,7 +967,7 @@ public class DBClass {
 		UserVO user13 = new UserVO();
 		user13.setId("epdlxj91");
 		user13.setName("가자미");
-		user13.setPw("vzli@3");
+		user13.setPw(AES256.AES_Encode("vzli@3"));
 		user13.setPoint(11000);
 		user13.setActivate(true);
 		userList.add(user13);
@@ -972,7 +975,7 @@ public class DBClass {
 		UserVO user14 = new UserVO();
 		user14.setId("qpdltm23");
 		user14.setName("황제성");
-		user14.setPw("ghkdwp1@");
+		user14.setPw(AES256.AES_Encode("ghkdwp1@"));
 		user14.setPoint(6000);
 		user14.setActivate(true);
 		userList.add(user14);
@@ -980,7 +983,7 @@ public class DBClass {
 		UserVO user15 = new UserVO();
 		user15.setId("tjfrP19");
 		user15.setName("쭈구리");
-		user15.setPw("321EWQ");
+		user15.setPw(AES256.AES_Encode("321EWQ"));
 		user15.setPoint(7500);
 		user15.setActivate(true);
 		userList.add(user15);
@@ -988,7 +991,7 @@ public class DBClass {
 		UserVO user16 = new UserVO();
 		user16.setId("rngus02");
 		user16.setName("차두리");
-		user16.setPw("sfj$z");
+		user16.setPw(AES256.AES_Encode("sfj$z"));
 		user16.setPoint(3200);
 		user16.setActivate(true);
 		userList.add(user16);
@@ -996,7 +999,7 @@ public class DBClass {
 		UserVO user17 = new UserVO();
 		user17.setId("wkqk33");
 		user17.setName("손흥민");
-		user17.setPw("dlAfm2@#");
+		user17.setPw(AES256.AES_Encode("dlAfm2@#"));
 		user17.setPoint(85350);
 		user17.setActivate(true);
 		userList.add(user17);
@@ -1004,7 +1007,7 @@ public class DBClass {
 		UserVO user18 = new UserVO();
 		user18.setId("dPwls96");
 		user18.setName("메시");
-		user18.setPw("aslk24");
+		user18.setPw(AES256.AES_Encode("aslk24"));
 		user18.setPoint(15740);
 		user18.setActivate(true);
 		userList.add(user18);
@@ -1012,7 +1015,7 @@ public class DBClass {
 		UserVO user19 = new UserVO();
 		user19.setId("gkrwo98");
 		user19.setName("이학재");
-		user19.setPw("wejhd251!");
+		user19.setPw(AES256.AES_Encode("wejhd251!"));
 		user19.setPoint(82540);
 		user19.setActivate(true);
 		userList.add(user19);
@@ -1020,7 +1023,7 @@ public class DBClass {
 		UserVO user20 = new UserVO();
 		user20.setId("ypdnd95");
 		user20.setName("장예진");
-		user20.setPw("ewu456");
+		user20.setPw(AES256.AES_Encode("ewu456"));
 		user20.setPoint(57820);
 		user20.setActivate(true);
 		userList.add(user20);
@@ -1028,7 +1031,7 @@ public class DBClass {
 		UserVO user21 = new UserVO();
 		user21.setId("tlqkf18");
 		user21.setName("retro");
-		user21.setPw("dfghai%#");
+		user21.setPw(AES256.AES_Encode("dfghai%#"));
 		user21.setPoint(43580);
 		user21.setActivate(true);
 		userList.add(user21);
@@ -1279,5 +1282,51 @@ public class DBClass {
 		od23.setIcecream_seq(25);
 		orderDetailsList.add(od28);
 
+	}
+	
+	{
+		admin.setId("admin");
+		admin.setPw(AES256.AES_Encode("p@ssW0rd"));
+	}
+	*/
+	
+	{
+		admin = Poi.getAdmin();
+		userList = Poi.getUserList();
+		notifyList = Poi.getNotifyList();
+		sizeList = Poi.getSizeList();
+		icecreamList = Poi.getIcecreamList();
+		orderInformationList = Poi.getOrderInformationList();
+		orderDetailsList = Poi.getOrderDetailsList();
+
+		for (SizeVO size : sizeList) {
+			if (size_seq < size.getSeq()) {
+				size_seq = size.getSeq();
+			}
+		}
+		
+		for (OrderInformationVO orderInformation : orderInformationList) {
+			if (orderDetails_seq < orderInformation.getSeq()) {
+				orderDetails_seq = orderInformation.getSeq();
+			}
+		}
+		
+		for (NotifyVO notify : notifyList) {
+			if (notify_seq < notify.getSeq()) {
+				notify_seq = notify.getSeq();
+			}
+		}
+		
+		for (OrderDetailsVO orderDetails : orderDetailsList) {
+			if (orderDetails_seq < orderDetails.getSeq()) {
+				orderDetails_seq = orderDetails.getSeq();
+			}
+		}
+		
+		for (IcecreamVO icecream : icecreamList) {
+			if (icecream_seq < icecream.getSeq()) {
+				icecream_seq = icecream.getSeq();
+			}
+		}
 	}
 }
