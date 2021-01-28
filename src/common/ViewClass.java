@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Random;
 import java.util.Scanner;
 
 import javax.mail.Message;
@@ -413,11 +414,41 @@ public class ViewClass {
 		System.out.println("가입한 아이디를 입력하세요.");
 		String userId = sInput();
 		
-		iUserService.selectUser(userId);
-//		if (iAdminService.adminLogin(loginInfo)) {
-//			adminMainView();
+		if(iUserService.checkId(userId)){
+			System.out.println("해당 아이디로 가입한 내역이 없습니다.");
+			return;
+		}
+		String newPw = getRandomPassword();
 		
+		AES256.AES_Encode(newPw);
+		
+		Map<String, Object> params = new HashMap<>();
+
+		params.put("user_id", userId);
+		params.put("user_pw", newPw);
+		int result = iUserService.updateUser(params);
+		
+		if (result > 0) {
+			System.out.println("임시 비밀번호로 변경되었습니다.");
+			System.out.println(userId + " 님의 임시 비밀번호는 " + newPw + " 입니다.");
+			System.out.println("해당 비밀번호로 다시 로그인 하여 비밀번호를 수정하여 주세요.");
+			return;
+		}
+		System.out.println("변경에 실패하였습니다.");
 	}
+	
+	
+
+	
+	String getRandomPassword(){
+        char[] charaters = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9'};
+        StringBuilder sb = new StringBuilder("");
+        Random rn = new Random();
+        for( int i = 0 ; i < 8 ; i++ ){
+            sb.append( charaters[ rn.nextInt( charaters.length ) ] );
+        }
+        return sb.toString();
+    }
 	
 	
 	/**
