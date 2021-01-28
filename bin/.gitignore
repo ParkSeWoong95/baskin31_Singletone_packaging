@@ -1,5 +1,3 @@
-/encryption
-/iTextPDF
+/iMail
+/iMailService
 /common
-/aes256
-/mail
