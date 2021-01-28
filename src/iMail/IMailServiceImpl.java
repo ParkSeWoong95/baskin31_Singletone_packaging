@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -47,6 +49,7 @@ public class IMailServiceImpl implements IMailService {
 
 	@Override
 	public void naverMailSend(int order_seq) {
+		
 		final IiTextPDFService iiTextPDFService = IiTextServiceImpl.getInstance();
 
 		String host = "smtp.naver.com"; // 네이버일 경우 네이버 계정
@@ -62,8 +65,12 @@ public class IMailServiceImpl implements IMailService {
 						return new javax.mail.PasswordAuthentication(users,password);
 					}
 				});
-		//
+		
 		try {
+			IOrderDetailsService iOrderDetailsService = IOrderDetailsServiceImpl.getInstance();
+			Map<String, Object> orderDetails = iOrderDetailsService.selectOrderDetails(order_seq);
+			OrderInformationVO orderInformation = (OrderInformationVO) orderDetails.get("order");
+			
 			MimeMessage message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(users));
 			message.setHeader("Content-type", "text/HTML; charset=UTF-8");
@@ -86,11 +93,15 @@ public class IMailServiceImpl implements IMailService {
 			multipart.addBodyPart(messageBodyPart);
 			
 			messageBodyPart = new MimeBodyPart();
-			File file = new File("output\\");
+			File file = new File("output\\OrderNo." + orderInformation.getSeq() + ".pdf");
+			FileDataSource fds = new FileDataSource(file);
+			messageBodyPart.setDataHandler(new DataHandler(fds));
+			messageBodyPart.setFileName(fds.getName());
+			multipart.addBodyPart(messageBodyPart);
 			
-			
-			
-			
+			// put parts in message
+			message.setContent(multipart);
+			Transport.send(message);
 			
 		} catch (MessagingException e) {
 			e.printStackTrace();
