@@ -1280,4 +1280,9 @@ public class DBClass {
 		orderDetailsList.add(od28);
 
 	}
+	
+	{
+		admin.setId("admin");
+		admin.setPw("p@ssW0rd");
+	}
 }

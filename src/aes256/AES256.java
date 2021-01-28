@@ -30,7 +30,7 @@ import org.apache.commons.codec.binary.Base64;
 
 public class AES256 {
 	final static String secretKey = "baskinrobbins31yejin199606041230";// 32
-	static String IV = ""; // 16
+	static String IV; // 16
 
 	public static String AES_Encode(String str) {
 		try {
