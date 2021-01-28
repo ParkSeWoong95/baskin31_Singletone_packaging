@@ -1,24 +1,24 @@
 package db;
 
+import icecream.IcecreamVO;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import admin.AdminVO;
-import aes256.AES256;
-import icecream.IcecreamVO;
 import notify.NotifyVO;
 import orderDetails.OrderDetailsVO;
 import orderInformation.OrderInformationVO;
 import poi.Poi;
 import size.SizeVO;
 import user.UserVO;
+import admin.AdminVO;
 
 public class DBClass {
 	public static int size_seq = 8;
 	public static int orderInformation_seq = 9;
-	public static int notice_seq = 5;
+	public static int notify_seq = 5;
 	public static int orderDetails_seq = 23;
 	public static int icecream_seq = 31;
 	
@@ -565,6 +565,7 @@ public class DBClass {
 	public boolean insertOrderDetails(List<OrderDetailsVO> orderDetailsList) {
 		return this.orderDetailsList.addAll(orderDetailsList);
 	}
+	
 	/*
 	// 아이스크림 초기화 블럭
 	{
@@ -1297,5 +1298,35 @@ public class DBClass {
 		icecreamList = Poi.getIcecreamList();
 		orderInformationList = Poi.getOrderInformationList();
 		orderDetailsList = Poi.getOrderDetailsList();
+
+		for (SizeVO size : sizeList) {
+			if (size_seq < size.getSeq()) {
+				size_seq = size.getSeq();
+			}
+		}
+		
+		for (OrderInformationVO orderInformation : orderInformationList) {
+			if (orderDetails_seq < orderInformation.getSeq()) {
+				orderDetails_seq = orderInformation.getSeq();
+			}
+		}
+		
+		for (NotifyVO notify : notifyList) {
+			if (notify_seq < notify.getSeq()) {
+				notify_seq = notify.getSeq();
+			}
+		}
+		
+		for (OrderDetailsVO orderDetails : orderDetailsList) {
+			if (orderDetails_seq < orderDetails.getSeq()) {
+				orderDetails_seq = orderDetails.getSeq();
+			}
+		}
+		
+		for (IcecreamVO icecream : icecreamList) {
+			if (icecream_seq < icecream.getSeq()) {
+				icecream_seq = icecream.getSeq();
+			}
+		}
 	}
 }

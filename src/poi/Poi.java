@@ -17,6 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import size.SizeVO;
 import user.UserVO;
 import admin.AdminVO;
+import aes256.AES256;
 
 public class Poi {
 	public static void main(String[] args) {
@@ -58,7 +59,7 @@ public class Poi {
 					UserVO user = new UserVO();
 					user.setId(row.getCell(0).getStringCellValue());
 					user.setName(row.getCell(1).getStringCellValue());
-					user.setPw(row.getCell(2).getStringCellValue());
+					user.setPw(AES256.AES_Encode(row.getCell(2).getStringCellValue()));
 					user.setPoint((int)row.getCell(3).getNumericCellValue());
 					user.setActivate(row.getCell(4).getBooleanCellValue());
 					userList.add(user);
@@ -194,4 +195,6 @@ public class Poi {
 		}
 		return orderDetailsList;
 	}
+	
+	
 }

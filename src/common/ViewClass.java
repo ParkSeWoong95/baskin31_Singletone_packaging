@@ -1149,7 +1149,7 @@ public class ViewClass {
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
 			Date date = new Date();
 
-			notify.setSeq(++DBClass.notice_seq);
+			notify.setSeq(++DBClass.notify_seq);
 			notify.setDate(simpleDateFormat.format(date));
 
 			iNotifyService.insertNotify(notify);
