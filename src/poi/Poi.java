@@ -3,6 +3,7 @@ package poi;
 import icecream.IcecreamVO;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -198,7 +199,7 @@ public class Poi {
 	
 	public static boolean writeExcelFile() {
 		try {
-			
+			FileOutputStream file = new FileOutputStream("db\\db2.xlsx");
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
