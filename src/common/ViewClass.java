@@ -339,7 +339,9 @@ public class ViewClass {
 		
 
 		while (true) {
-			wrongPw(loginCnt);
+			if(loginCnt >= 5){
+				wrongPw();
+			}
 			System.out.println();
 			if (userId == null) {
 				System.out.println("→ 1. 아이디 입력");
@@ -387,12 +389,11 @@ public class ViewClass {
 	}
 	
 	
-	void wrongPw(int loginCnt){
-		if(loginCnt >= 5){
-			System.out.println("5회 이상 비밀번호를 틀리셨습니다. 로그인 시도를 차단합니다.");
-			System.out.println("[1] 비밀번호 재발급");
-			System.out.println("[0] 뒤로가기");
-		}
+	void wrongPw(){
+		System.out.println("5회 이상 비밀번호를 틀리셨습니다. 로그인 시도를 차단합니다.");
+		System.out.println("[1] 비밀번호 재발급");
+		System.out.println("[0] 뒤로가기");
+		
 		int input = iInput();
 		
 		switch(input){
@@ -406,6 +407,12 @@ public class ViewClass {
 	
 	
 	void reissuance(){
+		System.out.println("가입한 아이디를 입력하세요.");
+		String userId = sInput();
+		
+		iUserService.selectUser(userId);
+//		if (iAdminService.adminLogin(loginInfo)) {
+//			adminMainView();
 		
 	}
 	
