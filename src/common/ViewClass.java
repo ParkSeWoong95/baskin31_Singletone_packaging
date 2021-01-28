@@ -337,6 +337,7 @@ public class ViewClass {
 		while (true) {
 			if(loginCnt >= 5){
 				wrongPw();
+				return;
 			}
 			System.out.println();
 			if (userId == null) {
@@ -374,19 +375,21 @@ public class ViewClass {
 				user = iUserService.selectUser(userId);
 				userMainView();
 				break;
+			}else if(loginCnt >= 5){
+				loginCnt = 0;
 			}
 
 			loginCnt ++;
-			message = "아이디 또는 비밀번호를 확인하세요. 비밀번호 " + loginCnt + "회 오류";
+			System.out.println("아이디 또는 비밀번호를 확인하세요. 비밀번호 " + loginCnt + "회 오류");
 			userId = null;
 			userPw = null;
+			
 			
 		}
 	}
 	
 	
 	void wrongPw(){
-		System.out.println("5회 이상 비밀번호를 틀리셨습니다. 로그인 시도를 차단합니다.");
 		System.out.println("[1] 비밀번호 재발급");
 		System.out.println("[0] 뒤로가기");
 		
@@ -395,7 +398,7 @@ public class ViewClass {
 		switch(input){
 		case 1:
 			reissuance();
-			break;
+			return;
 		case 0:
 			break;
 		}
@@ -405,19 +408,18 @@ public class ViewClass {
 	void reissuance(){
 		System.out.println("가입한 아이디를 입력하세요.");
 		String userId = sInput();
-		
 		if(iUserService.checkId(userId)){
 			System.out.println("해당 아이디로 가입한 내역이 없습니다.");
 			return;
 		}
 		String newPw = getRandomPassword();
 		
-		AES256.AES_Encode(newPw);
+		String newEnPw = AES256.AES_Encode(newPw);
 		
 		Map<String, Object> params = new HashMap<>();
 
 		params.put("user_id", userId);
-		params.put("user_pw", newPw);
+		params.put("user_pw", newEnPw);
 		int result = iUserService.updateUser(params);
 		
 		if (result > 0) {
@@ -1855,7 +1857,8 @@ public class ViewClass {
 		Map<String, Object> params = new HashMap<>();
 
 		params.put("user_id", user.getId());
-		params.put("user_pw", newPw);
+		String newEnPw = AES256.AES_Encode(newPw);
+		params.put("user_pw", newEnPw);
 
 		int result = iUserService.updateUser(params);
 		if (result > 0) {
