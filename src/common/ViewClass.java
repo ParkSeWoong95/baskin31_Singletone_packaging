@@ -1857,7 +1857,8 @@ public class ViewClass {
 		Map<String, Object> params = new HashMap<>();
 
 		params.put("user_id", user.getId());
-		params.put("user_pw", newPw);
+		String newEnPw = AES256.AES_Encode(newPw);
+		params.put("user_pw", newEnPw);
 
 		int result = iUserService.updateUser(params);
 		if (result > 0) {
