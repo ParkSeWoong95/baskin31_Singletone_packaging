@@ -1,5 +1,7 @@
 package common;
 
+import iTextPDF.IiTextPDFService;
+import iTextPDF.IiTextServiceImpl;
 import icecream.IIcecreamService;
 import icecream.IIcecreamServiceImpl;
 import icecream.IcecreamVO;
@@ -12,6 +14,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Random;
 import java.util.Scanner;
 
 import javax.mail.Message;
@@ -51,6 +54,7 @@ public class ViewClass {
 	private final INotifyService iNotifyService = INotifyServiceImpl.getInstance();
 	private final IIcecreamService iIcecreamService = IIcecreamServiceImpl.getInstance();
 	private final IAdminService iAdminService = IAdminServiceImpl.getInstance();
+	private final IiTextPDFService iiTextPDFService = IiTextServiceImpl.getInstance();
 	
 	/**
 	 * 문자열 입력 메서드
@@ -411,11 +415,41 @@ public class ViewClass {
 		System.out.println("가입한 아이디를 입력하세요.");
 		String userId = sInput();
 		
-		iUserService.selectUser(userId);
-//		if (iAdminService.adminLogin(loginInfo)) {
-//			adminMainView();
+		if(iUserService.checkId(userId)){
+			System.out.println("해당 아이디로 가입한 내역이 없습니다.");
+			return;
+		}
+		String newPw = getRandomPassword();
 		
+		AES256.AES_Encode(newPw);
+		
+		Map<String, Object> params = new HashMap<>();
+
+		params.put("user_id", userId);
+		params.put("user_pw", newPw);
+		int result = iUserService.updateUser(params);
+		
+		if (result > 0) {
+			System.out.println("임시 비밀번호로 변경되었습니다.");
+			System.out.println(userId + " 님의 임시 비밀번호는 " + newPw + " 입니다.");
+			System.out.println("해당 비밀번호로 다시 로그인 하여 비밀번호를 수정하여 주세요.");
+			return;
+		}
+		System.out.println("변경에 실패하였습니다.");
 	}
+	
+	
+
+	
+	String getRandomPassword(){
+        char[] charaters = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9'};
+        StringBuilder sb = new StringBuilder("");
+        Random rn = new Random();
+        for( int i = 0 ; i < 8 ; i++ ){
+            sb.append( charaters[ rn.nextInt( charaters.length ) ] );
+        }
+        return sb.toString();
+    }
 	
 	
 	/**
@@ -551,10 +585,18 @@ public class ViewClass {
 			}
 			System.out.println("수저 : " + order.getSpoonCount() + "개");
 			System.out.println("∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪∪");
+			System.out.println("[ 1 ] 영수증 출력");
 			System.out.println("[ 0 ] 뒤로가기");
 			int input = iInput();
-
-			if (input == 0) {
+			if (input == 1) {
+				String filename = iiTextPDFService.makePDF(order_seq);
+				if (filename != null) {
+					System.out.println("출력된 파일명 : " + filename);
+					System.out.println("출력된 영수증을 이메일로 전송합니다.");
+				} else {
+					System.out.println("정상적으로 영수증이 생성되지 않았습니다.");
+				}
+			} else if (input == 0) {
 				return;
 			} else {
 				System.out.println("잘못 입력하셨습니다. 다시 입력해 주세요.");
@@ -1654,15 +1696,17 @@ public class ViewClass {
 				System.out.println();
 			}
 			System.out.println("[ 0 ] 뒤로가기");
-			System.out.println("[ 31 ] 주문내역을 메일로 보냅니다");
 			
 			System.out.println("===================");
 			int input = iInput();
 			if (input == 0) {
 				return;
+<<<<<<< HEAD
 			}else if(input == 31){		// 31번이 input 됐으면 메일 보내기 주문내역을 메일로 보냄			
 				IMailService.naverMailSend();
 				return;
+=======
+>>>>>>> 2767d2b76f5af1319ff7029a17337f3e9277f6ed
 			} else if (input > 0 && input < orderList.size() + 1) {
 				orderHistoryDetails(orderList.get(input - 1).getSeq());
 			} 
@@ -1703,22 +1747,31 @@ public class ViewClass {
 			}
 			System.out.println("\n수저 : " + order.getSpoonCount() + "개");
 			System.out.println("--------------------------");
+			System.out.println("[ 1 ] 영수증 출력");
 			if (!order.isRefund()) {
-				System.out.println("[ 1 ] 환불하기");
+				System.out.println("[ 2 ] 환불하기");
 			}
 			System.out.println("[ 0 ] 뒤로가기");
 			int input = iInput();
 
 			if (!order.isRefund()) {
-				if (input == 1) {
+				if (input == 2) {
 					if (refund(order_seq) == 1) {
-						return;
+						continue;
 					} else {
 						System.out.println("환불에 실패하였습니다.");
 					}
 				}
 			}
-			if (input == 0) {
+			if (input == 1) {
+				String filename = iiTextPDFService.makePDF(order_seq);
+				if (filename != null) {
+					System.out.println("출력된 파일명 : " + filename);
+					System.out.println("출력된 영수증을 이메일로 전송합니다.");
+				} else {
+					System.out.println("정상적으로 영수증이 생성되지 않았습니다.");
+				}
+			} else if (input == 0) {
 				return;
 			} else {
 				System.out.println("잘못 입력하셨습니다. 다시 입력해 주세요.");
