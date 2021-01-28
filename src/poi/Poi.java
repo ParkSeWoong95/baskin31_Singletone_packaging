@@ -3,8 +3,10 @@ package poi;
 import icecream.IcecreamVO;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import notify.NotifyVO;
 import orderDetails.OrderDetailsVO;
@@ -19,14 +21,7 @@ import user.UserVO;
 import admin.AdminVO;
 import aes256.AES256;
 
-public class Poi {
-	public static void main(String[] args) {
-		List<NotifyVO> notifyList = getNotifyList();
-		for (NotifyVO notify : notifyList) {
-			System.out.println(notify.getDate());
-		}
-	}
-	
+public class Poi {	
 	public static AdminVO getAdmin() {
 		AdminVO admin = new AdminVO();
 		try {
@@ -37,7 +32,7 @@ public class Poi {
 				XSSFRow row = sheet.getRow(rowindex);
 				if (row != null) {
 					admin.setId(row.getCell(0).getStringCellValue());
-					admin.setPw(row.getCell(1).getStringCellValue());
+					admin.setPw(AES256.AES_Encode(row.getCell(1).getStringCellValue()));
 				}
 			}
 		} catch (Exception e) {
@@ -46,7 +41,7 @@ public class Poi {
 		return admin;
 	}
 	
-	public static List<UserVO> getUserList() {
+	public static List<UserVO> readUserList() {
 		List<UserVO> userList = new ArrayList<>();
 		try {
 			FileInputStream file = new FileInputStream("db\\Database.xlsx");
@@ -71,7 +66,7 @@ public class Poi {
 		return userList;
 	}
 	
-	public static List<NotifyVO> getNotifyList() {
+	public static List<NotifyVO> readNotifyList() {
 		List<NotifyVO> notifyList = new ArrayList<>();
 		try {
 			FileInputStream file = new FileInputStream("db\\Database.xlsx");
@@ -96,7 +91,7 @@ public class Poi {
 		return notifyList;
 	}
 	
-	public static List<SizeVO> getSizeList() {
+	public static List<SizeVO> readSizeList() {
 		List<SizeVO> sizeList = new ArrayList<>();
 		try {
 			FileInputStream file = new FileInputStream("db\\Database.xlsx");
@@ -122,7 +117,7 @@ public class Poi {
 		return sizeList;
 	}
 	
-	public static List<IcecreamVO> getIcecreamList() {
+	public static List<IcecreamVO> readIcecreamList() {
 		List<IcecreamVO> icecreamList = new ArrayList<IcecreamVO>();
 		try {
 			FileInputStream file = new FileInputStream("db\\Database.xlsx");
@@ -146,7 +141,7 @@ public class Poi {
 		return icecreamList;
 	}
 	
-	public static List<OrderInformationVO> getOrderInformationList() {
+	public static List<OrderInformationVO> readOrderInformationList() {
 		List<OrderInformationVO> orderInformationList = new ArrayList<>();
 		try {
 			FileInputStream file = new FileInputStream("db\\Database.xlsx");
@@ -173,7 +168,7 @@ public class Poi {
 		return orderInformationList;
 	}
 	
-	public static List<OrderDetailsVO> getOrderDetailsList() {
+	public static List<OrderDetailsVO> readOrderDetailsList() {
 		List<OrderDetailsVO> orderDetailsList = new ArrayList<>();
 		try {
 			FileInputStream file = new FileInputStream("db\\Database.xlsx");
@@ -196,10 +191,129 @@ public class Poi {
 		return orderDetailsList;
 	}
 	
-	public static boolean writeExcelFile() {
+	public static boolean writeExcelFile(Map<String, Object> lists) {
+		AdminVO admin = (AdminVO) lists.get("admin");
+		List<UserVO> userList = (List<UserVO>) lists.get("userList");
+		List<NotifyVO> notifyList = (List<NotifyVO>) lists.get("notifyList");
+		List<SizeVO> sizeList = (List<SizeVO>) lists.get("sizeList");
+		List<IcecreamVO> icecreamList = (List<IcecreamVO>) lists.get("icecreamList");
+		List<OrderInformationVO> orderInformationList = (List<OrderInformationVO>) lists.get("orderInformationList");
+		List<OrderDetailsVO> orderDetailsList = (List<OrderDetailsVO>) lists.get("orderDetailsList");
+		
+		FileOutputStream file;
+		XSSFWorkbook workbook;
+		XSSFRow curRow;
+		XSSFSheet sheet;
+		
 		try {
+			file = new FileOutputStream("db\\Database2.xlsx");
+			workbook = new XSSFWorkbook();
 			
-			return true;
+			sheet = workbook.createSheet("admin");
+	        curRow = sheet.createRow(0);
+	        curRow.createCell(0).setCellValue("id");
+	        curRow.createCell(1).setCellValue("pw");
+	        curRow = sheet.createRow(1);
+	        curRow.createCell(0).setCellValue(admin.getId());
+	        curRow.createCell(1).setCellValue(admin.getPw());
+	        
+	        sheet = workbook.createSheet("userList");
+	        curRow = sheet.createRow(0);
+	        curRow.createCell(0).setCellValue("id");
+	        curRow.createCell(1).setCellValue("name");
+	        curRow.createCell(2).setCellValue("pw");
+	        curRow.createCell(3).setCellValue("point");
+	        curRow.createCell(4).setCellValue("isActivate");
+	        for (int i = 1; i < userList.size() + 1; i++) {
+	        	curRow = sheet.createRow(i);
+	        	curRow.createCell(0).setCellValue(userList.get(i-1).getId());
+	        	curRow.createCell(1).setCellValue(userList.get(i-1).getName());
+	        	curRow.createCell(2).setCellValue(userList.get(i-1).getPw());
+	        	curRow.createCell(3).setCellValue(userList.get(i-1).getPoint());
+	        	curRow.createCell(4).setCellValue(userList.get(i-1).isActivate());
+	        }
+	        
+	        sheet = workbook.createSheet("notifyList");
+	        curRow = sheet.createRow(0);
+	        curRow.createCell(0).setCellValue("seq");
+	        curRow.createCell(1).setCellValue("title");
+	        curRow.createCell(2).setCellValue("contents");
+	        curRow.createCell(3).setCellValue("date");
+	        curRow.createCell(4).setCellValue("readView");
+	        for (int i = 1; i < userList.size() + 1; i++) {
+	        	curRow = sheet.createRow(i);
+	        	curRow.createCell(0).setCellValue(notifyList.get(i-1).getSeq());
+	        	curRow.createCell(1).setCellValue(notifyList.get(i-1).getTitle());
+	        	curRow.createCell(2).setCellValue(notifyList.get(i-1).getContents());
+	        	curRow.createCell(3).setCellValue(notifyList.get(i-1).getDate());
+	        	curRow.createCell(4).setCellValue(notifyList.get(i-1).getReadView());
+	        }
+	        
+	        sheet = workbook.createSheet("icecreamList");
+	        curRow = sheet.createRow(0);
+	        curRow.createCell(0).setCellValue("seq");
+	        curRow.createCell(1).setCellValue("kinds");
+	        curRow.createCell(2).setCellValue("stock");
+	        curRow.createCell(3).setCellValue("isActivate");
+	        for (int i = 1; i < userList.size() + 1; i++) {
+	        	curRow = sheet.createRow(i);
+	        	curRow.createCell(0).setCellValue(icecreamList.get(i-1).getSeq());
+	        	curRow.createCell(1).setCellValue(icecreamList.get(i-1).getKinds());
+	        	curRow.createCell(2).setCellValue(icecreamList.get(i-1).getStock());
+	        	curRow.createCell(3).setCellValue(icecreamList.get(i-1).isActivate());
+	        }
+	        
+	        sheet = workbook.createSheet("sizeList");
+	        curRow = sheet.createRow(0);
+	        curRow.createCell(0).setCellValue("seq");
+	        curRow.createCell(1).setCellValue("name");
+	        curRow.createCell(2).setCellValue("gram");
+	        curRow.createCell(3).setCellValue("flavorKinds");
+	        curRow.createCell(4).setCellValue("price");
+	        curRow.createCell(5).setCellValue("isActivate");
+	        for (int i = 1; i < userList.size() + 1; i++) {
+	        	curRow = sheet.createRow(i);
+	        	curRow.createCell(0).setCellValue(sizeList.get(i-1).getSeq());
+	        	curRow.createCell(1).setCellValue(sizeList.get(i-1).getName());
+	        	curRow.createCell(2).setCellValue(sizeList.get(i-1).getGram());
+	        	curRow.createCell(3).setCellValue(sizeList.get(i-1).getFlavorKinds());
+	        	curRow.createCell(4).setCellValue(sizeList.get(i-1).getPrice());
+	        	curRow.createCell(5).setCellValue(sizeList.get(i-1).isActivate());
+	        }
+	        
+	        sheet = workbook.createSheet("orderInformationList");
+	        curRow = sheet.createRow(0);
+	        curRow.createCell(0).setCellValue("seq");
+	        curRow.createCell(1).setCellValue("user_id");
+	        curRow.createCell(2).setCellValue("size_seq");
+	        curRow.createCell(3).setCellValue("spoonCount");
+	        curRow.createCell(4).setCellValue("howToPick");
+	        curRow.createCell(5).setCellValue("refund");
+	        curRow.createCell(6).setCellValue("isActivate");
+	        for (int i = 1; i < userList.size() + 1; i++) {
+	        	curRow = sheet.createRow(i);
+	        	curRow.createCell(0).setCellValue(orderInformationList.get(i-1).getSeq());
+	        	curRow.createCell(1).setCellValue(orderInformationList.get(i-1).getUser_id());
+	        	curRow.createCell(2).setCellValue(orderInformationList.get(i-1).getSize_seq());
+	        	curRow.createCell(3).setCellValue(orderInformationList.get(i-1).getSpoonCount());
+	        	curRow.createCell(4).setCellValue(orderInformationList.get(i-1).getHowToPick());
+	        	curRow.createCell(5).setCellValue(orderInformationList.get(i-1).isRefund());
+	        	curRow.createCell(6).setCellValue(orderInformationList.get(i-1).isActivate());
+	        }
+	        
+	        sheet = workbook.createSheet("orderDetailsList");
+	        curRow = sheet.createRow(0);
+	        curRow.createCell(0).setCellValue("seq");
+	        curRow.createCell(1).setCellValue("order_seq");
+	        curRow.createCell(2).setCellValue("icecream_seq");
+	        for (int i = 1; i < userList.size() + 1; i++) {
+	        	curRow = sheet.createRow(i);
+	        	curRow.createCell(0).setCellValue(orderDetailsList.get(i-1).getSeq());
+	        	curRow.createCell(1).setCellValue(orderDetailsList.get(i-1).getOrder_seq());
+	        	curRow.createCell(2).setCellValue(orderDetailsList.get(i-1).getIcecream_seq());
+	        }
+	        workbook.write(file);
+	        file.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

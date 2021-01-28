@@ -1292,12 +1292,12 @@ public class DBClass {
 	
 	{
 		admin = Poi.getAdmin();
-		userList = Poi.getUserList();
-		notifyList = Poi.getNotifyList();
-		sizeList = Poi.getSizeList();
-		icecreamList = Poi.getIcecreamList();
-		orderInformationList = Poi.getOrderInformationList();
-		orderDetailsList = Poi.getOrderDetailsList();
+		userList = Poi.readUserList();
+		notifyList = Poi.readNotifyList();
+		sizeList = Poi.readSizeList();
+		icecreamList = Poi.readIcecreamList();
+		orderInformationList = Poi.readOrderInformationList();
+		orderDetailsList = Poi.readOrderDetailsList();
 
 		for (SizeVO size : sizeList) {
 			if (size_seq < size.getSeq()) {
