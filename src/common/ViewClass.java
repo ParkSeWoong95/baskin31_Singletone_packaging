@@ -1,5 +1,6 @@
 package common;
 
+import iMail.IMailServiceImpl;
 import iTextPDF.IiTextPDFService;
 import iTextPDF.IiTextServiceImpl;
 import icecream.IIcecreamService;
@@ -89,7 +90,6 @@ public class ViewClass {
 	String pwInput() {
 		String input = sInput();
 		return AES256.AES_Encode(input);
-	
 	}
 	
 	/**
@@ -1735,6 +1735,7 @@ public class ViewClass {
 			Map<String, Object> orderDetails = iOrderDetailsIService.selectOrderDetails(order_seq);
 			OrderInformationVO order = (OrderInformationVO) orderDetails.get("order");
 			List<OrderDetailsVO> details = (List<OrderDetailsVO>) orderDetails.get("details");
+			IMailServiceImpl iMailServiceImpl = new IMailServiceImpl();
 			System.out.println("--------------------------");
 			System.out.println("아이디 : " + order.getUser_id());
 			UserVO user = iUserService.selectUser(order.getUser_id());
@@ -1774,6 +1775,7 @@ public class ViewClass {
 				if (filename != null) {
 					System.out.println("출력된 파일명 : " + filename);
 					System.out.println("출력된 영수증을 이메일로 전송합니다.");
+					iMailServiceImpl.naverMailSend(order_seq);
 				} else {
 					System.out.println("정상적으로 영수증이 생성되지 않았습니다.");
 				}
