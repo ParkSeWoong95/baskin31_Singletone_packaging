@@ -1,13 +1,16 @@
 package iMail;
 
+import java.io.File;
 import java.util.Properties;
 
 import javax.mail.Message;
-import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 
 public class IMailServiceImpl implements IMailService {
@@ -41,12 +44,22 @@ public class IMailServiceImpl implements IMailService {
 	         MimeMessage message = new MimeMessage(session);
 	         message.setFrom(new InternetAddress(user));
 	         message.addRecipient(Message.RecipientType.TO, new InternetAddress(
-	               "ririnto@kakao.com")); // 메일 제목
-	         message.setSubject("KTKO SMTP TEST1111"); // 메일 내용
-	         message.setText("KTKO Success!!"); // send the message
+	               "ririnto@kakao.com"));
+	         
+	         // 메일 제목
+	         message.setSubject("OrderNo." + order_seq + "의 영수증을 보내드립니다.");
+
+	         MimeBodyPart attachmentPart = new MimeBodyPart();
+	         attachmentPart.attachFile(new File("output\\OrderNo." + order_seq + ".pdf"));
+	         
+	         Multipart multipart = new MimeMultipart();
+	         multipart.addBodyPart(attachmentPart);
+	         
+	         // send the message
+	         message.setContent(multipart);
 	         Transport.send(message);
 	         System.out.println("Success Message Send");
-	      } catch (MessagingException e) {
+	      } catch (Exception e) {
 	         e.printStackTrace();
 	      }
 	   }
