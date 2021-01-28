@@ -19,7 +19,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import size.SizeVO;
 import user.UserVO;
 import admin.AdminVO;
-import aes256.AES256;
 
 public class Poi {	
 	public static AdminVO getAdmin() {
@@ -32,7 +31,7 @@ public class Poi {
 				XSSFRow row = sheet.getRow(rowindex);
 				if (row != null) {
 					admin.setId(row.getCell(0).getStringCellValue());
-					admin.setPw(AES256.AES_Encode(row.getCell(1).getStringCellValue()));
+					admin.setPw(row.getCell(1).getStringCellValue());
 				}
 			}
 		} catch (Exception e) {
@@ -54,7 +53,7 @@ public class Poi {
 					UserVO user = new UserVO();
 					user.setId(row.getCell(0).getStringCellValue());
 					user.setName(row.getCell(1).getStringCellValue());
-					user.setPw(AES256.AES_Encode(row.getCell(2).getStringCellValue()));
+					user.setPw(row.getCell(2).getStringCellValue());
 					user.setPoint((int)row.getCell(3).getNumericCellValue());
 					user.setActivate(row.getCell(4).getBooleanCellValue());
 					userList.add(user);
@@ -191,7 +190,7 @@ public class Poi {
 		return orderDetailsList;
 	}
 	
-	public static boolean writeExcelFile(Map<String, Object> lists) {
+	public static boolean writeDatabaseAsExcel(Map<String, Object> lists) {
 		AdminVO admin = (AdminVO) lists.get("admin");
 		List<UserVO> userList = (List<UserVO>) lists.get("userList");
 		List<NotifyVO> notifyList = (List<NotifyVO>) lists.get("notifyList");
@@ -206,7 +205,7 @@ public class Poi {
 		XSSFSheet sheet;
 		
 		try {
-			file = new FileOutputStream("db\\Database2.xlsx");
+			file = new FileOutputStream("db\\Database.xlsx");
 			workbook = new XSSFWorkbook();
 			
 			sheet = workbook.createSheet("admin");
@@ -240,7 +239,7 @@ public class Poi {
 	        curRow.createCell(2).setCellValue("contents");
 	        curRow.createCell(3).setCellValue("date");
 	        curRow.createCell(4).setCellValue("readView");
-	        for (int i = 1; i < userList.size() + 1; i++) {
+	        for (int i = 1; i < notifyList.size() + 1; i++) {
 	        	curRow = sheet.createRow(i);
 	        	curRow.createCell(0).setCellValue(notifyList.get(i-1).getSeq());
 	        	curRow.createCell(1).setCellValue(notifyList.get(i-1).getTitle());
@@ -255,7 +254,7 @@ public class Poi {
 	        curRow.createCell(1).setCellValue("kinds");
 	        curRow.createCell(2).setCellValue("stock");
 	        curRow.createCell(3).setCellValue("isActivate");
-	        for (int i = 1; i < userList.size() + 1; i++) {
+	        for (int i = 1; i < icecreamList.size() + 1; i++) {
 	        	curRow = sheet.createRow(i);
 	        	curRow.createCell(0).setCellValue(icecreamList.get(i-1).getSeq());
 	        	curRow.createCell(1).setCellValue(icecreamList.get(i-1).getKinds());
@@ -271,7 +270,7 @@ public class Poi {
 	        curRow.createCell(3).setCellValue("flavorKinds");
 	        curRow.createCell(4).setCellValue("price");
 	        curRow.createCell(5).setCellValue("isActivate");
-	        for (int i = 1; i < userList.size() + 1; i++) {
+	        for (int i = 1; i < sizeList.size() + 1; i++) {
 	        	curRow = sheet.createRow(i);
 	        	curRow.createCell(0).setCellValue(sizeList.get(i-1).getSeq());
 	        	curRow.createCell(1).setCellValue(sizeList.get(i-1).getName());
@@ -290,7 +289,7 @@ public class Poi {
 	        curRow.createCell(4).setCellValue("howToPick");
 	        curRow.createCell(5).setCellValue("refund");
 	        curRow.createCell(6).setCellValue("isActivate");
-	        for (int i = 1; i < userList.size() + 1; i++) {
+	        for (int i = 1; i < orderInformationList.size() + 1; i++) {
 	        	curRow = sheet.createRow(i);
 	        	curRow.createCell(0).setCellValue(orderInformationList.get(i-1).getSeq());
 	        	curRow.createCell(1).setCellValue(orderInformationList.get(i-1).getUser_id());
@@ -306,7 +305,7 @@ public class Poi {
 	        curRow.createCell(0).setCellValue("seq");
 	        curRow.createCell(1).setCellValue("order_seq");
 	        curRow.createCell(2).setCellValue("icecream_seq");
-	        for (int i = 1; i < userList.size() + 1; i++) {
+	        for (int i = 1; i < orderDetailsList.size() + 1; i++) {
 	        	curRow = sheet.createRow(i);
 	        	curRow.createCell(0).setCellValue(orderDetailsList.get(i-1).getSeq());
 	        	curRow.createCell(1).setCellValue(orderDetailsList.get(i-1).getOrder_seq());
@@ -314,6 +313,7 @@ public class Poi {
 	        }
 	        workbook.write(file);
 	        file.close();
+	        return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

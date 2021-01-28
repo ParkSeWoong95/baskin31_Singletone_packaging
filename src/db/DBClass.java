@@ -566,6 +566,19 @@ public class DBClass {
 		return this.orderDetailsList.addAll(orderDetailsList);
 	}
 	
+	public boolean writeDatabaseAsExcel() {
+		Map<String, Object> lists = new HashMap<>();
+		lists.put("admin", admin);
+		lists.put("userList", userList);
+		lists.put("notifyList", notifyList);
+		lists.put("sizeList", sizeList);
+		lists.put("icecreamList", icecreamList);
+		lists.put("orderInformationList", orderInformationList);
+		lists.put("orderDetailsList", orderDetailsList);
+		
+		return Poi.writeDatabaseAsExcel(lists);
+	}
+	
 	/*
 	// 아이스크림 초기화 블럭
 	{
@@ -1329,4 +1342,5 @@ public class DBClass {
 			}
 		}
 	}
+
 }

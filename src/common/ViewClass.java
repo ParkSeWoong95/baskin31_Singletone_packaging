@@ -48,6 +48,7 @@ public class ViewClass {
 	private final IIcecreamService iIcecreamService = IIcecreamServiceImpl.getInstance();
 	private final IAdminService iAdminService = IAdminServiceImpl.getInstance();
 	private final IiTextPDFService iiTextPDFService = IiTextServiceImpl.getInstance();
+	private final IService iService = IServiceImpl.getInstance();
 	
 	/**
 	 * 문자열 입력 메서드
@@ -89,7 +90,6 @@ public class ViewClass {
 	String pwInput() {
 		String input = sInput();
 		return AES256.AES_Encode(input);
-	
 	}
 	
 	/**
@@ -118,6 +118,11 @@ public class ViewClass {
 			switch (iInput()) {
 			case 0:
 				System.out.println("프로그램을 종료합니다.");
+				if (iService.writeDatabaseAsExcel()){
+					System.out.println("DB 저장에 성공하였습니다.");
+				}  else {
+					System.out.println("DB 저장에 실패하였습니다.");
+				}
 				return;
 			case 1:
 				loginView();
