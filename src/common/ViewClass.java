@@ -79,7 +79,11 @@ public class ViewClass {
 		return input;
 	}
 	
-	
+	/**
+	 * 비밀 번호 입력 메서드 
+	 * @author 정예진
+	 * @return
+	 */
 	String pwInput() {
 		String input = sInput();
 		return AES256.AES_Encode(input);
@@ -388,8 +392,12 @@ public class ViewClass {
 		}
 	}
 	
-	
+	/**
+	 * 비밀 번호 재발급 뷰
+	 * @author 정예진
+	 */
 	void wrongPw(){
+		System.out.println();
 		System.out.println("[1] 비밀번호 재발급");
 		System.out.println("[0] 뒤로가기");
 		
@@ -404,7 +412,9 @@ public class ViewClass {
 		}
 	}
 	
-	
+	/**
+	 * 
+	 */
 	void reissuance(){
 		System.out.println("가입한 아이디를 입력하세요.");
 		String userId = sInput();
