@@ -197,6 +197,7 @@ public class Poi {
 		return orderDetailsList;
 	}
 	
+<<<<<<< HEAD
 	public static boolean writeExcelFile() {
 		try {
 			FileOutputStream file = new FileOutputStream("db\\db2.xlsx");
@@ -206,4 +207,7 @@ public class Poi {
 		}
 		return false;
 	}
+=======
+	
+>>>>>>> parent of 1bd3684... .
 }
