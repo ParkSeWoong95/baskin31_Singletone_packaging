@@ -29,17 +29,17 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
-public class IiTextServiceImpl implements IiTextPDFService {
+public class IiTextPDFServiceImpl implements IiTextPDFService {
 	
-	private static IiTextServiceImpl service;
+	private static IiTextPDFServiceImpl service;
 	
-	private IiTextServiceImpl(){
+	private IiTextPDFServiceImpl(){
 		
 	}
 	
-	public static IiTextServiceImpl getInstance(){
+	public static IiTextPDFServiceImpl getInstance(){
 		if(service == null){
-			service = new IiTextServiceImpl();
+			service = new IiTextPDFServiceImpl();
 		}
 		return service;
 	}

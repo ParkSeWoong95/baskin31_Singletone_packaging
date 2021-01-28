@@ -11,5 +11,5 @@ public interface IMailService {
 	 * 
 	 */
 	// 주문한 것을 메일로 보내야함.
-	public void naverMailSend(int order_seq);
+	void naverMailSend(int order_seq);
 }

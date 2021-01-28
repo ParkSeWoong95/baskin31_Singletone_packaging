@@ -8,7 +8,6 @@
 	<classpathentry kind="lib" path="lib/itextpdf-5.5.13.2-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/itextpdf-5.5.13.2-sources.jar"/>
 	<classpathentry kind="lib" path="lib/itextpdf-5.5.13.2.jar"/>
-	<classpathentry kind="lib" path="lib/javax.mail-api-1.6.2.jar"/>
 	<classpathentry kind="lib" path="lib/junit-4.4.jar"/>
 	<classpathentry kind="lib" path="lib/local_policy.jar"/>
 	<classpathentry kind="lib" path="lib/US_export_policy.jar"/>
@@ -25,5 +24,6 @@
 	<classpathentry kind="lib" path="lib/junit-3.8.1.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.13.jar"/>
 	<classpathentry kind="lib" path="lib/stax-api-1.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/javax.mail.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
