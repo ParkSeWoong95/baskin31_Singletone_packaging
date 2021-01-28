@@ -63,6 +63,4 @@ public class IMailServiceImpl implements IMailService {
 	         e.printStackTrace();
 	      }
 	   }
-
-
 }
