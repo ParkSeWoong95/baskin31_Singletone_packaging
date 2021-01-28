@@ -11,7 +11,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Scanner;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import notify.INotifyService;
 import notify.INotifyServiceImpl;
@@ -31,6 +39,7 @@ import user.UserVO;
 import admin.IAdminService;
 import admin.IAdminServiceImpl;
 import db.DBClass;
+import encryption.AES256CipherTest;
 
 public class ViewClass {
 	private UserVO user = null;
@@ -342,6 +351,8 @@ public class ViewClass {
 			} else if (userPw == null) {
 				System.out.println("비밀번호를 입력하세요.");
 				userPw = sInput();
+				AES256CipherTest aesPw = new AES256CipherTest(userPw);
+				System.out.println(aesPw);
 				continue;
 			}
 
@@ -1600,17 +1611,24 @@ public class ViewClass {
 				System.out.println();
 			}
 			System.out.println("[ 0 ] 뒤로가기");
+			System.out.println("[ 31 ] 주문내역을 메일로 보냅니다");
+			
 			System.out.println("===================");
 			int input = iInput();
 			if (input == 0) {
 				return;
+			}else if(input == 31){		// 31번이 input 됐으면 메일 보내기 주문내역을 메일로 보냄			
+				naverMailSend();
+				return;
 			} else if (input > 0 && input < orderList.size() + 1) {
 				orderHistoryDetails(orderList.get(input - 1).getSeq());
-			} else {
+			} 
+			else {
 				System.out.println("잘못 입력하셨습니다. 다시 입력해 주세요.");
 			}
 		}
 	}
+
 
 	/**
 	 * -주문 상세 내역 조회 -사용자 메서드
@@ -1822,4 +1840,53 @@ public class ViewClass {
 			}
 		}
 	}
+	
+	/**
+	 * 
+	 * 메일 - 보내기 메서드
+	 * 메일을 보내기 위해서는 네이버 계정에 SMTP이 '사용'으로 변환되어있어야함, jar 가 추가되어있어야함 mail-1.4.7.jar
+	 * jar 다운로드 링크 https://mvnrepository.com/artifact/javax.mail/mail/1.4.7
+	 * Port번호는 587사용 
+	 * @author 박세웅
+	 * 
+	 */
+	
+	// 주문한 것을 메일로 보내야함.
+	private static void naverMailSend() {
+		String host = "smtp.naver.com"; // 네이버일 경우 네이버 계정
+		final String user = "atpdnd@naver.com"; // 패스워드, 왜 final ??
+		final String password = "08941qkr@"; // SMTP 서버 정보를 설정한다. 왜 final ??
+		Properties props = new Properties(); // HashTable형 new Properties 생성
+		props.put("mail.smtp.host", host); // 생성된 props객체에 host, prot, auth 값을
+											// 넣음
+		props.put("mail.smtp.port", 587);
+		props.put("mail.smtp.auth", "true");
+		Session session = Session.getDefaultInstance(props,new javax.mail.Authenticator() {
+					protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
+						return new javax.mail.PasswordAuthentication(user,password);
+					}
+				});
+		try {
+			MimeMessage message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(user));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(
+					"atpdnd@gmail.com")); // 메일 제목
+			// 주문 목록을 보내기
+			List<OrderInformationVO> orderList = new ArrayList<OrderInformationVO>();
+			
+			message.setSubject("아이스크림 주문 목록을 보냅니다"); // 메일 내용
+			message.setText(orderList + "성공했습니다 메일보내기"); // send the message
+			Transport.send(message);
+			System.out.println("Success Message Send");
+			
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	
 }
+
+
