@@ -1664,14 +1664,10 @@ public class ViewClass {
 				System.out.println();
 			}
 			System.out.println("[ 0 ] 뒤로가기");
-			System.out.println("[ 31 ] 주문내역을 메일로 보냅니다");
 			
 			System.out.println("===================");
 			int input = iInput();
 			if (input == 0) {
-				return;
-			}else if(input == 31){		// 31번이 input 됐으면 메일 보내기 주문내역을 메일로 보냄			
-				naverMailSend();
 				return;
 			} else if (input > 0 && input < orderList.size() + 1) {
 				orderHistoryDetails(orderList.get(input - 1).getSeq());
