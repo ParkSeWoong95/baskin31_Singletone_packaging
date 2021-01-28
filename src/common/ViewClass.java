@@ -39,6 +39,7 @@ import user.UserVO;
 import admin.IAdminService;
 import admin.IAdminServiceImpl;
 import db.DBClass;
+import encryption.AES256CipherTest;
 
 public class ViewClass {
 	private UserVO user = null;
@@ -350,6 +351,8 @@ public class ViewClass {
 			} else if (userPw == null) {
 				System.out.println("비밀번호를 입력하세요.");
 				userPw = sInput();
+				AES256CipherTest aesPw = new AES256CipherTest(userPw);
+				System.out.println(aesPw);
 				continue;
 			}
 

@@ -6,6 +6,7 @@ public class AdminVO {
 	public String getId() {
 		return id;
 	}
+	
 	public String getPw() {
 		return pw;
 	}
