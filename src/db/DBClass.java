@@ -34,8 +34,8 @@ public class DBClass {
 		return db;
 	}
 	
-	private List<UserVO> userList = new ArrayList<>();
 	private AdminVO admin = new AdminVO();
+	private List<UserVO> userList = new ArrayList<>();
 	private List<NotifyVO> notifyList = new ArrayList<NotifyVO>();
 	private List<IcecreamVO> icecreamList = new ArrayList<IcecreamVO>();
 	private List<SizeVO> sizeList = new ArrayList<>();
