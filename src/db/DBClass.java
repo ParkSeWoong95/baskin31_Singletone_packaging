@@ -1284,6 +1284,6 @@ public class DBClass {
 	
 	{
 		admin.setId("admin");
-		admin.setPw("p@ssW0rd");
+		admin.setPw(AES256.AES_Encode("p@ssW0rd"));
 	}
 }

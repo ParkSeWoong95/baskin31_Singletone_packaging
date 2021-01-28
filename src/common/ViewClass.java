@@ -16,6 +16,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
+import com.itextpdf.text.log.SysoCounter;
+
 import notify.INotifyService;
 import notify.INotifyServiceImpl;
 import notify.NotifyVO;
@@ -413,7 +415,8 @@ public class ViewClass {
 	}
 	
 	/**
-	 * 
+	 * 비밀번호 암호화 메서드
+	 * @author 정예진
 	 */
 	void reissuance(){
 		System.out.println("가입한 아이디를 입력하세요.");
@@ -433,9 +436,11 @@ public class ViewClass {
 		int result = iUserService.updateUser(params);
 		
 		if (result > 0) {
+			System.out.println();
 			System.out.println("임시 비밀번호로 변경되었습니다.");
 			System.out.println(userId + " 님의 임시 비밀번호는 " + newPw + " 입니다.");
 			System.out.println("해당 비밀번호로 다시 로그인 하여 비밀번호를 수정하여 주세요.");
+			System.out.println();
 			return;
 		}
 		System.out.println("변경에 실패하였습니다.");
@@ -443,7 +448,11 @@ public class ViewClass {
 	
 	
 
-	
+	/**
+	 * 랜덤 비밀번호 생성 메서드
+	 * @author 정예진
+	 * @return 랜덤 생성된 비밀번호
+	 */
 	String getRandomPassword(){
         char[] charaters = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9'};
         StringBuilder sb = new StringBuilder("");
