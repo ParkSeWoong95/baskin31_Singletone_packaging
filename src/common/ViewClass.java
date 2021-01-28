@@ -1,7 +1,5 @@
 package common;
 
-import iMail.IMailService;
-import iMail.IMailServiceImpl;
 import iTextPDF.IiTextPDFService;
 import iTextPDF.IiTextServiceImpl;
 import icecream.IIcecreamService;
@@ -50,7 +48,6 @@ public class ViewClass {
 	private final IIcecreamService iIcecreamService = IIcecreamServiceImpl.getInstance();
 	private final IAdminService iAdminService = IAdminServiceImpl.getInstance();
 	private final IiTextPDFService iiTextPDFService = IiTextServiceImpl.getInstance();
-	private final IMailService imailService = IMailServiceImpl.getInstance();
 	
 	/**
 	 * 문자열 입력 메서드
@@ -84,14 +81,6 @@ public class ViewClass {
 		return input;
 	}
 	
-<<<<<<< HEAD
-	
-//	String pwInput() {
-//		String input = sInput();
-//		return AES256.AES_Encode(input);
-//	
-//	}
-=======
 	/**
 	 * 비밀 번호 입력 메서드 
 	 * @author 정예진
@@ -102,7 +91,6 @@ public class ViewClass {
 		return AES256.AES_Encode(input);
 	
 	}
->>>>>>> 1bd36846280ef9ff0e9a535c91333583a0ec2b49
 	
 	/**
 	 * 메인뷰
@@ -378,7 +366,7 @@ public class ViewClass {
 				continue;
 			} else if (userPw == null) {
 				System.out.println("비밀번호를 입력하세요.");
-				userPw = sInput();
+				userPw = pwInput();
 				continue;
 			}
 
@@ -617,7 +605,6 @@ public class ViewClass {
 				if (filename != null) {
 					System.out.println("출력된 파일명 : " + filename);
 					System.out.println("출력된 영수증을 이메일로 전송합니다.");
-					
 				} else {
 					System.out.println("정상적으로 영수증이 생성되지 않았습니다.");
 				}
@@ -1726,11 +1713,6 @@ public class ViewClass {
 			int input = iInput();
 			if (input == 0) {
 				return;
-<<<<<<< HEAD
-			}else if(input == 31){		// 31번이 input 됐으면 메일 보내기 주문내역을 메일로 보냄			
-				return;
-=======
->>>>>>> 1bd36846280ef9ff0e9a535c91333583a0ec2b49
 			} else if (input > 0 && input < orderList.size() + 1) {
 				orderHistoryDetails(orderList.get(input - 1).getSeq());
 			} 
