@@ -24,7 +24,6 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import mail.IMailService;
 import notify.INotifyService;
 import notify.INotifyServiceImpl;
 import notify.NotifyVO;
@@ -1701,12 +1700,8 @@ public class ViewClass {
 			int input = iInput();
 			if (input == 0) {
 				return;
-<<<<<<< HEAD
 			}else if(input == 31){		// 31번이 input 됐으면 메일 보내기 주문내역을 메일로 보냄			
-				IMailService.naverMailSend();
 				return;
-=======
->>>>>>> 2767d2b76f5af1319ff7029a17337f3e9277f6ed
 			} else if (input > 0 && input < orderList.size() + 1) {
 				orderHistoryDetails(orderList.get(input - 1).getSeq());
 			} 
