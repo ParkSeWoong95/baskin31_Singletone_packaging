@@ -18,16 +18,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
-<<<<<<< HEAD
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
-=======
->>>>>>> e12bd16c2645709cc5404b0155042c1db74a4a05
 import notify.INotifyService;
 import notify.INotifyServiceImpl;
 import notify.NotifyVO;
@@ -1730,11 +1720,6 @@ public class ViewClass {
 			int input = iInput();
 			if (input == 0) {
 				return;
-<<<<<<< HEAD
-			}else if(input == 31){		// 31번이 input 됐으면 메일 보내기 주문내역을 메일로 보냄			
-				return;
-=======
->>>>>>> e12bd16c2645709cc5404b0155042c1db74a4a05
 			} else if (input > 0 && input < orderList.size() + 1) {
 				orderHistoryDetails(orderList.get(input - 1).getSeq());
 			} 

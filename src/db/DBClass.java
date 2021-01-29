@@ -1319,8 +1319,8 @@ public class DBClass {
 		}
 		
 		for (OrderInformationVO orderInformation : orderInformationList) {
-			if (orderInformation_seq < orderInformation.getSeq()) {
-				orderInformation_seq = orderInformation.getSeq();
+			if (orderDetails_seq < orderInformation.getSeq()) {
+				orderDetails_seq = orderInformation.getSeq();
 			}
 		}
 		
