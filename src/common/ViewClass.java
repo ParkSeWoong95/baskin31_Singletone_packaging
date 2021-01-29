@@ -1,7 +1,9 @@
 package common;
 
+import iMail.IMailService;
+import iMail.IMailServiceImpl;
 import iTextPDF.IiTextPDFService;
-import iTextPDF.IiTextServiceImpl;
+import iTextPDF.IiTextPDFServiceImpl;
 import icecream.IIcecreamService;
 import icecream.IIcecreamServiceImpl;
 import icecream.IcecreamVO;
@@ -13,10 +15,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Random;
 import java.util.Scanner;
 
+<<<<<<< HEAD
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -24,6 +26,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+=======
+>>>>>>> e12bd16c2645709cc5404b0155042c1db74a4a05
 import notify.INotifyService;
 import notify.INotifyServiceImpl;
 import notify.NotifyVO;
@@ -53,7 +57,9 @@ public class ViewClass {
 	private final INotifyService iNotifyService = INotifyServiceImpl.getInstance();
 	private final IIcecreamService iIcecreamService = IIcecreamServiceImpl.getInstance();
 	private final IAdminService iAdminService = IAdminServiceImpl.getInstance();
-	private final IiTextPDFService iiTextPDFService = IiTextServiceImpl.getInstance();
+	private final IiTextPDFService iiTextPDFService = IiTextPDFServiceImpl.getInstance();
+	private final IService iService = IServiceImpl.getInstance();
+	private final IMailService iMailService = IMailServiceImpl.getInstance();
 	
 	/**
 	 * 문자열 입력 메서드
@@ -87,11 +93,14 @@ public class ViewClass {
 		return input;
 	}
 	
-	
+	/**
+	 * 비밀 번호 입력 메서드 
+	 * @author 정예진
+	 * @return
+	 */
 	String pwInput() {
 		String input = sInput();
 		return AES256.AES_Encode(input);
-	
 	}
 	
 	/**
@@ -120,6 +129,11 @@ public class ViewClass {
 			switch (iInput()) {
 			case 0:
 				System.out.println("프로그램을 종료합니다.");
+				if (iService.writeDatabaseAsExcel()){
+					System.out.println("DB 저장에 성공하였습니다.");
+				}  else {
+					System.out.println("DB 저장에 실패하였습니다.");
+				}
 				return;
 			case 1:
 				loginView();
@@ -345,6 +359,7 @@ public class ViewClass {
 		while (true) {
 			if(loginCnt >= 5){
 				wrongPw();
+				return;
 			}
 			System.out.println();
 			if (userId == null) {
@@ -382,19 +397,25 @@ public class ViewClass {
 				user = iUserService.selectUser(userId);
 				userMainView();
 				break;
+			}else if(loginCnt >= 5){
+				loginCnt = 0;
 			}
 
 			loginCnt ++;
-			message = "아이디 또는 비밀번호를 확인하세요. 비밀번호 " + loginCnt + "회 오류";
+			System.out.println("아이디 또는 비밀번호를 확인하세요. 비밀번호 " + loginCnt + "회 오류");
 			userId = null;
 			userPw = null;
+			
 			
 		}
 	}
 	
-	
+	/**
+	 * 비밀 번호 재발급 뷰
+	 * @author 정예진
+	 */
 	void wrongPw(){
-		System.out.println("5회 이상 비밀번호를 틀리셨습니다. 로그인 시도를 차단합니다.");
+		System.out.println();
 		System.out.println("[1] 비밀번호 재발급");
 		System.out.println("[0] 뒤로가기");
 		
@@ -403,35 +424,39 @@ public class ViewClass {
 		switch(input){
 		case 1:
 			reissuance();
-			break;
+			return;
 		case 0:
 			break;
 		}
 	}
 	
-	
+	/**
+	 * 비밀번호 암호화 메서드
+	 * @author 정예진
+	 */
 	void reissuance(){
 		System.out.println("가입한 아이디를 입력하세요.");
 		String userId = sInput();
-		
 		if(iUserService.checkId(userId)){
 			System.out.println("해당 아이디로 가입한 내역이 없습니다.");
 			return;
 		}
 		String newPw = getRandomPassword();
 		
-		AES256.AES_Encode(newPw);
+		String newEnPw = AES256.AES_Encode(newPw);
 		
 		Map<String, Object> params = new HashMap<>();
 
 		params.put("user_id", userId);
-		params.put("user_pw", newPw);
+		params.put("user_pw", newEnPw);
 		int result = iUserService.updateUser(params);
 		
 		if (result > 0) {
+			System.out.println();
 			System.out.println("임시 비밀번호로 변경되었습니다.");
 			System.out.println(userId + " 님의 임시 비밀번호는 " + newPw + " 입니다.");
 			System.out.println("해당 비밀번호로 다시 로그인 하여 비밀번호를 수정하여 주세요.");
+			System.out.println();
 			return;
 		}
 		System.out.println("변경에 실패하였습니다.");
@@ -439,7 +464,11 @@ public class ViewClass {
 	
 	
 
-	
+	/**
+	 * 랜덤 비밀번호 생성 메서드
+	 * @author 정예진
+	 * @return 랜덤 생성된 비밀번호
+	 */
 	String getRandomPassword(){
         char[] charaters = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9'};
         StringBuilder sb = new StringBuilder("");
@@ -592,6 +621,7 @@ public class ViewClass {
 				if (filename != null) {
 					System.out.println("출력된 파일명 : " + filename);
 					System.out.println("출력된 영수증을 이메일로 전송합니다.");
+					iMailService.naverMailSend(order_seq);
 				} else {
 					System.out.println("정상적으로 영수증이 생성되지 않았습니다.");
 				}
@@ -1136,7 +1166,7 @@ public class ViewClass {
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
 			Date date = new Date();
 
-			notify.setSeq(++DBClass.notice_seq);
+			notify.setSeq(++DBClass.notify_seq);
 			notify.setDate(simpleDateFormat.format(date));
 
 			iNotifyService.insertNotify(notify);
@@ -1700,8 +1730,11 @@ public class ViewClass {
 			int input = iInput();
 			if (input == 0) {
 				return;
+<<<<<<< HEAD
 			}else if(input == 31){		// 31번이 input 됐으면 메일 보내기 주문내역을 메일로 보냄			
 				return;
+=======
+>>>>>>> e12bd16c2645709cc5404b0155042c1db74a4a05
 			} else if (input > 0 && input < orderList.size() + 1) {
 				orderHistoryDetails(orderList.get(input - 1).getSeq());
 			} 
@@ -1763,6 +1796,7 @@ public class ViewClass {
 				if (filename != null) {
 					System.out.println("출력된 파일명 : " + filename);
 					System.out.println("출력된 영수증을 이메일로 전송합니다.");
+					iMailService.naverMailSend(order_seq);
 				} else {
 					System.out.println("정상적으로 영수증이 생성되지 않았습니다.");
 				}
@@ -1865,7 +1899,8 @@ public class ViewClass {
 		Map<String, Object> params = new HashMap<>();
 
 		params.put("user_id", user.getId());
-		params.put("user_pw", newPw);
+		String newEnPw = AES256.AES_Encode(newPw);
+		params.put("user_pw", newEnPw);
 
 		int result = iUserService.updateUser(params);
 		if (result > 0) {
