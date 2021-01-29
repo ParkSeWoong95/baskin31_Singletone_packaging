@@ -30,20 +30,20 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 public class IiTextPDFServiceImpl implements IiTextPDFService {
-	
+
 	private static IiTextPDFServiceImpl service;
-	
-	private IiTextPDFServiceImpl(){
-		
+
+	private IiTextPDFServiceImpl() {
+
 	}
-	
-	public static IiTextPDFServiceImpl getInstance(){
-		if(service == null){
+
+	public static IiTextPDFServiceImpl getInstance() {
+		if (service == null) {
 			service = new IiTextPDFServiceImpl();
 		}
 		return service;
 	}
-	
+
 	private IOrderDetailsService iOrderDetailsService = IOrderDetailsServiceImpl.getInstance();
 	private IUserService iUserService = IUserServiceImpl.getInstance();
 	private ISizeService iSizeService = ISizeServiceImpl.getInstance();
@@ -57,14 +57,13 @@ public class IiTextPDFServiceImpl implements IiTextPDFService {
 			List<OrderDetailsVO> orderDetailsList = (List<OrderDetailsVO>) orderDetails.get("details");
 			UserVO user = iUserService.selectUser(orderInformation.getUser_id());
 			SizeVO size = iSizeService.selectSize(orderInformation.getSize_seq());
-			
+
 			String fileName = "output\\OrderNo." + orderInformation.getSeq() + ".pdf";
-			
-			Document doc = new Document(PageSize.A6, 20, 20, 30, 30); // 페이지 사이즈와
-			// 좌우상하 여백
-			
+
+			Document doc = new Document(PageSize.A6, 20, 20, 30, 30); // 페이지 사이즈와 좌우상하 여백
 			PdfWriter.getInstance(doc, new FileOutputStream(fileName));
 			doc.open();
+
 			Image img = Image.getInstance("logo\\Baskin-Robbins_logo.png");
 			img.setAlignment(1);
 			img.setAbsolutePosition(30, 100);
@@ -74,21 +73,21 @@ public class IiTextPDFServiceImpl implements IiTextPDFService {
 			Font titleFont = new Font(bf, 16, Font.BOLD);
 			Font cellTitleFont = new Font(bf, 10, Font.BOLD);
 			Font cellNormalFont = new Font(bf, 10, Font.NORMAL);
-			
+
 			Paragraph title = new Paragraph("영수증", titleFont);
 			title.setAlignment(Paragraph.ALIGN_CENTER);
-			
+
 			doc.add(new Paragraph(" "));
 			doc.add(title);
 			doc.add(new Paragraph(" "));
 			doc.add(new Paragraph(" "));
-			
+
 			PdfPTable table1 = new PdfPTable(4);
 			table1.setHorizontalAlignment(Element.ALIGN_CENTER);
 			table1.setTotalWidth(200f);
 			table1.setLockedWidth(true);
 			PdfPCell cell = null;
-			
+
 			cell = new PdfPCell(new Paragraph("아이디", cellTitleFont));
 			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -100,7 +99,7 @@ public class IiTextPDFServiceImpl implements IiTextPDFService {
 			cell.setColspan(3);
 			cell.setFixedHeight(21);
 			table1.addCell(cell);
-			
+
 			cell = new PdfPCell(new Paragraph("이름", cellTitleFont));
 			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -112,7 +111,7 @@ public class IiTextPDFServiceImpl implements IiTextPDFService {
 			cell.setColspan(3);
 			cell.setFixedHeight(21);
 			table1.addCell(cell);
-			
+
 			cell = new PdfPCell(new Paragraph("사이즈명", cellTitleFont));
 			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -124,7 +123,7 @@ public class IiTextPDFServiceImpl implements IiTextPDFService {
 			cell.setColspan(3);
 			cell.setFixedHeight(21);
 			table1.addCell(cell);
-			
+
 			cell = new PdfPCell(new Paragraph("가격", cellTitleFont));
 			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -136,7 +135,7 @@ public class IiTextPDFServiceImpl implements IiTextPDFService {
 			cell.setColspan(3);
 			cell.setFixedHeight(21);
 			table1.addCell(cell);
-			
+
 			cell = new PdfPCell(new Paragraph("수령 방법", cellTitleFont));
 			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -148,7 +147,7 @@ public class IiTextPDFServiceImpl implements IiTextPDFService {
 			cell.setColspan(3);
 			cell.setFixedHeight(21);
 			table1.addCell(cell);
-			
+
 			cell = new PdfPCell(new Paragraph("스푼 갯수", cellTitleFont));
 			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -160,7 +159,7 @@ public class IiTextPDFServiceImpl implements IiTextPDFService {
 			cell.setColspan(3);
 			cell.setFixedHeight(21);
 			table1.addCell(cell);
-			
+
 			cell = new PdfPCell(new Paragraph("환불 여부", cellTitleFont));
 			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -172,14 +171,14 @@ public class IiTextPDFServiceImpl implements IiTextPDFService {
 			cell.setColspan(3);
 			cell.setFixedHeight(21);
 			table1.addCell(cell);
-			
+
 			cell = new PdfPCell(new Paragraph("선택한 맛", cellTitleFont));
 			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 			cell.setFixedHeight(21);
 			cell.setRowspan(orderDetailsList.size());
 			table1.addCell(cell);
-			
+
 			for (int i = 0; i < orderDetailsList.size(); i++) {
 				cell = new PdfPCell(new Paragraph(iIcecreamService.selectIcecream(orderDetailsList.get(i).getIcecream_seq()).getKinds(), cellNormalFont));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
