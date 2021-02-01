@@ -1340,6 +1340,7 @@ public class ViewClass {
 			System.out.println("[ 4 ] 아이스크림 종류 조회");
 			System.out.println("[ 5 ] 주문내역 조회");
 			System.out.println("[ 6 ] 내 정보 수정");
+			System.out.println("[ 7 ] 게임하기");
 			System.out.println("[ 0 ] 로그아웃");
 			System.out.println("--------------------");
 
@@ -1370,12 +1371,66 @@ public class ViewClass {
 			case 6:
 				myInfoView();
 				break;
+			case 7:
+				break;
 			default:
 				message = "올바르지 않은 입력입니다.";
 			}
 		}
 	}
 	
+	public void userGame() {
+		String message = "";
+		while (true) {
+			if (user == null) {
+				return;
+			}
+			System.out.println("--------------------");
+			System.out.println("[ 1 ] 학재 게임");
+			System.out.println("[ 2 ] 세웅 게임");
+			System.out.println("[ 3 ] 예진 게임");
+			System.out.println("[ 0 ] 로그아웃");
+			System.out.println("--------------------");
+
+			if (!"".equals(message)) {
+				System.out.println();
+				System.out.println(message);
+				message = "￣￣￣￣￣￣￣￣￣￣￣￣￣￣";
+			}
+
+			switch (iInput()) {
+			case 0:
+				return;
+			case 1:
+				hakjae();
+				break;
+			case 2:
+				 sewoong();
+				break;
+			case 3:
+				yejin();
+				break;
+			default:
+				message = "올바르지 않은 입력입니다.";
+			}
+		}
+	}
+	
+	private void yejin() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void sewoong() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void hakjae() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	/**
 	 * -공지사항 조회(회원) -사용자 메서드
 	 * 
