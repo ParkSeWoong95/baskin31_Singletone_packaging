@@ -139,6 +139,9 @@ public class Lotto {
 			}
 			
 			System.out.println(i + 1 + "번째 게임 결과입니다.");
+			List<Integer> temp = new ArrayList<>(selectLotto.get(i));
+			Collections.sort(temp);
+			System.out.println("내가 선택한 숫자 : " + temp);
 			if (result == 6) {
 				System.out.println("1등 당첨을 축하합니다.");
 				System.out.println("당첨금은 10억원입니다.");
