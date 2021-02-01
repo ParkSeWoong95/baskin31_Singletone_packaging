@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
 
+import com.itextpdf.text.log.SysoCounter;
+
 
 /*:: BaseballGame.java 클래스 :: 
 
@@ -22,21 +24,13 @@ public class NumberBaseball{
       System.out.println("***********************************");
       System.out.println("\t숫자 야구 게임을 시작합니다\t");
       System.out.println("***********************************");
-      
-      while(true){
-    	  int i=1;
-    	  ArrayList<Integer> input = input();
-    	  ArrayList<Integer> answer = random();
-    	  System.out.println(i + "번째 도전");
-    	  if(chkStrike(answer, input) == 4){
-    		  System.out.println("정답입니다^^");
-    		  break;
-    	  }
-    	  System.out.println(chkBall(answer,input) + " Ball");
-    	  System.out.println(chkStrike(answer, input) + "Strike");
-    	  
-    	 
-      }
+      ArrayList<Integer> answer = random();
+      System.out.print(answer.get(0));
+      System.out.print(answer.get(1));
+      System.out.print(answer.get(2));
+      System.out.println(answer.get(3));
+     
+      chk(answer);
       
    }
    
@@ -55,7 +49,7 @@ public class NumberBaseball{
    public ArrayList<Integer> input(){
       ArrayList<Integer> input = new ArrayList<>();
       Scanner sc = new Scanner(System.in);
-      System.out.println();
+      
       System.out.println("정답을 입력해 주세요.");
       String in = sc.next();
       for(int i=0; i < in.length(); i++){
@@ -68,25 +62,36 @@ public class NumberBaseball{
       return input;
    }
    
-   int chkBall(ArrayList<Integer> answer, ArrayList<Integer> input){
+   void chk(ArrayList<Integer> answer){
       int ball = 0;
-      for(int i=0; i<answer.size(); i++){
-         if(answer.contains(input.get(i))){
-         ball ++;   
-         }
-      }
-      return ball;
-   }
-   
-   int chkStrike(ArrayList<Integer> answer, ArrayList<Integer> input){
       int strike = 0; 
-	  for(int i=0; i<answer.size(); i++){
-    	 if(answer.get(i) == input.get(i)){
-    		  strike++;
-    	 }
-      }
-      
-      return strike;
+      int cnt = 1;
+      while(true){
+    	  System.out.println("===================================");
+    	  System.out.println(cnt + "번째 시도" + "\t");
+    	  System.out.println("===================================");
+    	  ArrayList<Integer> input = input();
+	      for(int i=0; i<answer.size(); i++){
+	         if(answer.contains(input.get(i))){
+	        	 if(answer.get(i) == input.get(i)){
+	    		  strike++;
+	    		  continue;
+	        	 }
+	         ball ++;   
+	         }
+	      }
+	      if(strike == 4){
+	    	  System.out.println();
+	    	  System.out.println("정답입니다^^");
+	    	  return;
+	      }
+	      System.out.println(ball + " Ball");
+	      System.out.println(strike + " Strike");
+	      ball = 0;
+	      strike = 0;
+	      cnt++;
+	   }
    }
+
 
 }

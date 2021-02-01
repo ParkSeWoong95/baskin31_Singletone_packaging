@@ -1373,6 +1373,7 @@ public class ViewClass {
 				myInfoView();
 				break;
 			case 7:
+				userGame();
 				break;
 			default:
 				message = "올바르지 않은 입력입니다.";
