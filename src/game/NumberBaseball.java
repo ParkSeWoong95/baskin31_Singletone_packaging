@@ -93,7 +93,7 @@ public class NumberBaseball{
       
    }
    
-   //임의의 중복되지 않은 3개의 숫자 생성 (0~9까지의 난수)
+   //임의의 중복되지 않은 4개의 숫자 생성 (0~9까지의 난수)
    public ArrayList<Integer> random(){
       HashSet<Integer> ans = new HashSet<>();
       while(ans.size() < 4){
@@ -122,8 +122,7 @@ public class NumberBaseball{
     		  }
     	  }
       }
-//      if(input.charAt(i) )
-//      int in = Integer.parseInt(input);
+
    }
    
    int chk(ArrayList<Integer> answer){
