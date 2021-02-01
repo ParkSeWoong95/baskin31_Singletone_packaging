@@ -82,7 +82,8 @@ public class NumberBaseball{
 	      }
 	      if(strike == 4){
 	    	  System.out.println();
-	    	  System.out.println("정답입니다^^");
+	    	  System.out.println("♬  정답입니다 :) ♬");
+	    	  System.out.println();
 	    	  return;
 	      }
 	      System.out.println(ball + " Ball");
