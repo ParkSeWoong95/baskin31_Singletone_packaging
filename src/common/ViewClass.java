@@ -396,8 +396,6 @@ public class ViewClass {
 			System.out.println("아이디 또는 비밀번호를 확인하세요. 비밀번호 " + loginCnt + "회 오류");
 			userId = null;
 			userPw = null;
-			
-			
 		}
 	}
 	
@@ -1388,8 +1386,8 @@ public class ViewClass {
 				return;
 			}
 			System.out.println("--------------------");
-			System.out.println("[ 1 ] 학재 게임");
-			System.out.println("[ 2 ] 세웅 게임");
+			System.out.println("[ 1 ] 세웅 게임");
+			System.out.println("[ 2 ] Lotto");
 			System.out.println("[ 3 ] 숫자야구 게임");
 			System.out.println("[ 0 ] 로그아웃");
 			System.out.println("--------------------");
@@ -1404,10 +1402,10 @@ public class ViewClass {
 			case 0:
 				return;
 			case 1:
-				hakjae();
+				sewoong();
 				break;
 			case 2:
-				 sewoong();
+				hakjae();
 				break;
 			case 3:
 				numberBaseball();
