@@ -44,35 +44,30 @@ public class NumberBaseball{
       return answer;
    }
    
-   //숫자만 받는 메서드
-	int iInput() {
-		int input;
-		while (true) {
-			try {
-				Scanner scanner = new Scanner(System.in);
-				input = scanner.nextInt();
-				break;
-			} catch (Exception e) {
-				System.out.println();
-				System.out.println("숫자만 입력해주세요.");
-			}
-		}
-		return input;
-	}
-   
    // user로부터 4개의 입력을 받는 메소드
    
    public String input(){
+      System.out.println("------------------------------------");
       System.out.println("정답을 입력해 주세요.");
-      int in = 0;
+      Scanner sc = new Scanner(System.in);
       while(true){
-    	  in = iInput();
-    	  if(in > 1000){
-    		  return in + "";
+    	  String input = sc.next();
+    	  if(input.length() != 4){
+    		 System.out.println("0~9 사이의 숫자 4자리를 입력해 주세요.1");
     	  }else{
-    		  System.out.println("0~9 사이의 숫자 4자리를 입력해 주세요.");
+    		  for(int i=0; i<input.length(); i++){
+    			  if(!('0' <= input.charAt(i) && input.charAt(i) <= '9')){
+    				  System.out.println("0~9 사이의 숫자 4자리를 입력해 주세요."); 
+    				  break;
+    			  }
+  			  sc.next();
+
+    		  }
+    		  return input;
     	  }
       }
+//      if(input.charAt(i) )
+//      int in = Integer.parseInt(input);
    }
    
    void chk(ArrayList<Integer> answer){
@@ -84,11 +79,12 @@ public class NumberBaseball{
       while(true){
     	  ArrayList<Integer> userInput = new ArrayList<>();
     	  String input = input();
+
     	  System.out.println("===================================");
     	  System.out.println(cnt + "번째 시도" + "\t");
     	  System.out.println("===================================");
 
-    	  System.out.println(input);
+    	  System.out.println("내가 입력한 정답 : " + input);
     	  for(int i=0; i<input.length(); i++){
         	  userInput.add(input.charAt(i)-'0');
           }
