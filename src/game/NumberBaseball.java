@@ -44,36 +44,57 @@ public class NumberBaseball{
       return answer;
    }
    
-   // user로부터 3개의 입력을 받는 메소드
+   //숫자만 받는 메서드
+	int iInput() {
+		int input;
+		while (true) {
+			try {
+				Scanner scanner = new Scanner(System.in);
+				input = scanner.nextInt();
+				break;
+			} catch (Exception e) {
+				System.out.println();
+				System.out.println("숫자만 입력해주세요.");
+			}
+		}
+		return input;
+	}
    
-   public ArrayList<Integer> input(){
-      ArrayList<Integer> input = new ArrayList<>();
-      Scanner sc = new Scanner(System.in);
-      
+   // user로부터 4개의 입력을 받는 메소드
+   
+   public String input(){
       System.out.println("정답을 입력해 주세요.");
-      String in = sc.next();
-      for(int i=0; i < in.length(); i++){
-    	  if('0' <= in.charAt(i) && in.charAt(i) <= '9'){
-    		  input.add(in.charAt(i)-'0');    		  
+      int in = 0;
+      while(true){
+    	  in = iInput();
+    	  if(in > 1000){
+    		  return in + "";
     	  }else{
-    		 System.out.println("잘못 입력하셨습니다. 0~9 사이의 숫자 4자리를 입력해주세요.");
+    		  System.out.println("0~9 사이의 숫자 4자리를 입력해 주세요.");
     	  }
       }
-      return input;
    }
    
    void chk(ArrayList<Integer> answer){
       int ball = 0;
       int strike = 0; 
       int cnt = 1;
+      
+      
       while(true){
+    	  ArrayList<Integer> userInput = new ArrayList<>();
+    	  String input = input();
     	  System.out.println("===================================");
     	  System.out.println(cnt + "번째 시도" + "\t");
     	  System.out.println("===================================");
-    	  ArrayList<Integer> input = input();
+
+    	  System.out.println(input);
+    	  for(int i=0; i<input.length(); i++){
+        	  userInput.add(input.charAt(i)-'0');
+          }
 	      for(int i=0; i<answer.size(); i++){
-	         if(answer.contains(input.get(i))){
-	        	 if(answer.get(i) == input.get(i)){
+	         if(answer.contains(userInput.get(i))){
+	        	 if(answer.get(i) == userInput.get(i)){
 	    		  strike++;
 	    		  continue;
 	        	 }
@@ -82,7 +103,8 @@ public class NumberBaseball{
 	      }
 	      if(strike == 4){
 	    	  System.out.println();
-	    	  System.out.println("정답입니다^^");
+	    	  System.out.println("♬  정답입니다 :) ♬");
+	    	  System.out.println();
 	    	  return;
 	      }
 	      System.out.println(ball + " Ball");
