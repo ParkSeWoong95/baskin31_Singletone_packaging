@@ -1430,62 +1430,8 @@ public class ViewClass {
 	}
 
 	private void lotto() {
-		int input;
-		int method;
 		Lotto lotto = new Lotto();
-		List<Set<Integer>> selectLotto;
-		Set<Integer> raffle = new HashSet<>();
-		int bonus;
-		
-		while (true) {
-			System.out.println("플레이 할 게임 수를 입력하세요. ( 1 ~ 5 회 )");
-			System.out.println("게임 당 1000원의 요금이 발생합니다.");
-			input = iInput();
-			if (input == 0) {
-				System.out.println("게임을 취소합니다.");
-				return;
-			} else if (input > 0 && input <= 5) {
-				break;
-			}
-			System.out.println("올바른 숫자가 아닙니다.");
-		}
-		
-		if (user.getPoint() < input * 1000) {
-			System.out.println("돈도없는게 ...");
-			return;
-		}
-		
-		while (true) {
-			System.out.println("게임 플레이 방법을 선택하세요.");
-			System.out.println("[ 1 ] 수동");
-			System.out.println("[ 2 ] 자동");
-			method = iInput();
-			if (method == 1) {
-				selectLotto = lotto.selectLotto(input);
-				break;
-			} else if (method == 2) {
-				selectLotto = lotto.autoSelectLotto(input);
-				break;
-			}
-			System.out.println("올바른 숫자가 아닙니다.");
-		}
-		
-		System.out.println("추첨을 시작합니다.");
-		while (raffle.size() < 5) {
-			System.out.print(raffle.size() + 1 + "번째 숫자 : ");
-			int num = (int)(Math.random() * 45 + 1);
-			if (raffle.add(num)) {
-				System.out.println(num);
-			}
-		}
-		
-		while (true) {
-			bonus = (int)(Math.random() * 45 + 1);
-			if (!raffle.contains(bonus)) {
-				System.out.println("보너스 숫자 : " + bonus);
-				break;
-			}
-		}
+		lotto.lotto(user.getId());
 	}
 	
 	/**
