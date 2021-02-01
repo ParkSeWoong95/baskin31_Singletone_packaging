@@ -5,8 +5,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -59,7 +61,7 @@ public class Lotto {
 		
 		// 역대 당첨 번호를 모두 한 리스트에 꼬라박는 방식으로 가중치 부여
 		List<Integer> parseLotto = new ArrayList<>();
-
+		
 		while (true) {
 			System.out.println("플레이 할 게임 수를 입력하세요. ( 1 ~ 5 회 )");
 			System.out.println("게임 당 1000원의 요금이 발생합니다.");
@@ -77,6 +79,11 @@ public class Lotto {
 			System.out.println("돈도없는게 ...");
 			return;
 		}
+		
+		Map<String, Object> updateUser = new HashMap<>();
+		updateUser.put("user_id", user_id);
+		updateUser.put("user_point", user.getPoint() - input * 1000);
+		iUserService.updateUser(updateUser);
 
 		while (true) {
 			System.out.println("게임 플레이 방법을 선택하세요.");
@@ -98,9 +105,9 @@ public class Lotto {
 		for (int i = 0; i < 948; i++) {
 			try {
 				System.out.print(i + 1 + "회차 결과");
-				List<Integer> result = parseLotto(i);
-				System.out.println(result);
-				parseLotto.addAll(result);
+				List<Integer> parseLottoPart = parseLotto(i);
+				System.out.println(parseLottoPart);
+				parseLotto.addAll(parseLottoPart);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -108,25 +115,74 @@ public class Lotto {
 		
 		System.out.println("추첨 시작");
 		while (raffle.size() < 6) {
-			int num = parseLotto.get((int) (Math.random() * parseLotto.size()));
-			if (raffle.add(num)) {
-				System.out.print(raffle.size() + "번째 숫자 : ");
-				System.out.println(num);
-			}
+			raffle.add(parseLotto.get((int) (Math.random() * parseLotto.size())));
 		}
-
+		
 		while (true) {
 			bonus = parseLotto.get((int) (Math.random() * parseLotto.size()));
 			if (!raffle.contains(bonus)) {
-				System.out.println("보너스 숫자 : " + bonus);
 				break;
 			}
 		}
+		
 		List<Integer> raffleResult = new ArrayList<>(raffle);
 		Collections.sort(raffleResult);
 		
 		System.out.println("추첨 결과 : " + raffleResult);
 		System.out.println("보너스 숫자 : " + bonus);
+		for (int i = 0; i < selectLotto.size(); i++) {
+			int result = 0;
+			for (Integer raffleNum : raffleResult) {
+				if (selectLotto.get(i).contains(raffleNum)) {
+					result++;
+				}
+			}
+			
+			System.out.println(i + 1 + "번째 게임 결과입니다.");
+			if (result == 6) {
+				System.out.println("1등 당첨을 축하합니다.");
+				System.out.println("당첨금은 10억원입니다.");
+				
+				Map<String, Object> userObj = new HashMap<>();
+				userObj.put("user_id", user_id);
+				userObj.put("user_point", 1000000000);
+				iUserService.addPoint(userObj);
+			} else if (result == 5 && selectLotto.get(i).contains(bonus)) {
+				System.out.println("2등 당첨을 축하합니다.");
+				System.out.println("당첨금은 4천만원입니다.");
+				
+				Map<String, Object> userObj = new HashMap<>();
+				userObj.put("user_id", user_id);
+				userObj.put("user_point", 40000000);
+				iUserService.addPoint(userObj);
+			} else if (result == 5) {
+				System.out.println("3등 당첨을 축하합니다.");
+				System.out.println("당첨금은 300만원입니다.");
+				
+				Map<String, Object> userObj = new HashMap<>();
+				userObj.put("user_id", user_id);
+				userObj.put("user_point", 3000000);
+				iUserService.addPoint(userObj);
+			} else if (result == 4) {
+				System.out.println("4등 당첨을 축하합니다.");
+				System.out.println("당첨금은 5만원입니다.");
+				
+				Map<String, Object> userObj = new HashMap<>();
+				userObj.put("user_id", user_id);
+				userObj.put("user_point", 50000);
+				iUserService.addPoint(userObj);
+			} else if (result == 3) {
+				System.out.println("5등 당첨을 축하합니다.");
+				System.out.println("당첨금은 5천원입니다.");
+				
+				Map<String, Object> userObj = new HashMap<>();
+				userObj.put("user_id", user_id);
+				userObj.put("user_point", 5000);
+				iUserService.addPoint(userObj);
+			} else {
+				System.out.println("아쉽지만 꽝입니다.");
+			}
+		}
 	}
 
 	public List<Set<Integer>> selectLotto(int input) {
