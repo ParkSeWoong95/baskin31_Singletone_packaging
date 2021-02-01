@@ -1,5 +1,6 @@
 package common;
 
+import game.Lotto;
 import game.NumberBaseball;
 import iMail.IMailService;
 import iMail.IMailServiceImpl;
@@ -13,11 +14,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Set;
 
 import notify.INotifyService;
 import notify.INotifyServiceImpl;
@@ -1405,7 +1408,7 @@ public class ViewClass {
 				sewoong();
 				break;
 			case 2:
-				hakjae();
+				lotto();
 				break;
 			case 3:
 				numberBaseball();
@@ -1426,11 +1429,11 @@ public class ViewClass {
 		
 	}
 
-	private void hakjae() {
-		// TODO Auto-generated method stub
-		
+	private void lotto() {
+		Lotto lotto = new Lotto();
+		lotto.lotto(user.getId());
 	}
-
+	
 	/**
 	 * -공지사항 조회(회원) -사용자 메서드
 	 * 
