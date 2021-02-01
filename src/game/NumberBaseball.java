@@ -1,8 +1,14 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Scanner;
+
+import user.IUserService;
+import user.IUserServiceImpl;
+import user.UserVO;
 
 import com.itextpdf.text.log.SysoCounter;
 
@@ -18,19 +24,57 @@ import com.itextpdf.text.log.SysoCounter;
 */
 
 public class NumberBaseball{
+	int iInput() {
+		int input;
+		while (true) {
+			try {
+				Scanner scanner = new Scanner(System.in);
+				input = scanner.nextInt();
+				break;
+			} catch (Exception e) {
+				System.out.println();
+				System.out.println("숫자만 입력해주세요.");
+			}
+		}
+		return input;
+	}
    
-   public void start(){
+   public void start(String userId){
+	  IUserService iUserService = IUserServiceImpl.getInstance();
+	  UserVO user = iUserService.selectUser(userId);
 
       System.out.println("***********************************");
       System.out.println("\t숫자 야구 게임을 시작합니다\t");
       System.out.println("***********************************");
       ArrayList<Integer> answer = random();
-      System.out.print(answer.get(0));
-      System.out.print(answer.get(1));
-      System.out.print(answer.get(2));
-      System.out.println(answer.get(3));
+      System.out.println("한 게임 당 1000원의 요금이 발생합니다. 진행 하시겠습니까?");
+      System.out.println("[ 1 ] YES     [ 2 ] NO");
+      int select = iInput();
+      if(select == 1){
+    	  if(user.getPoint() < 1000){
+    		  System.out.println("보유 포인트가 부족합니다. 충전 후 참여하세요.");
+    		  return;
+    	  }else{
+    		  Map<String, Object> value = new HashMap<>();
+    		  value.put("user_id", user.getId());
+    		  value.put("user_point", user.getPoint() - 1000);
+    		  iUserService.addPoint(value);
+    		  chk(answer);
+    	  }
+    	  
+      }else if(select == 2){
+    	  return;
+      }else{
+    	  System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
+      }
+      
+//      System.out.print(answer.get(0));
+//      System.out.print(answer.get(1));
+//      System.out.print(answer.get(2));
+//      System.out.println(answer.get(3));
+      
      
-      chk(answer);
+     
       
    }
    

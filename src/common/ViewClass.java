@@ -1421,7 +1421,7 @@ public class ViewClass {
 	
 	private void numberBaseball() {
 		NumberBaseball nb = new NumberBaseball();
-		nb.start();
+		nb.start(user.getId());
 	}
 
 	private void sewoong() {
