@@ -3,6 +3,8 @@ package game;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
@@ -55,7 +57,7 @@ public class Lotto {
 		Set<Integer> raffle = new HashSet<>();
 		int bonus;
 		
-		// 역대 당첨 번호
+		// 역대 당첨 번호를 모두 한 리스트에 꼬라박는 방식으로 가중치 부여
 		List<Integer> parseLotto = new ArrayList<>();
 
 		while (true) {
@@ -103,7 +105,8 @@ public class Lotto {
 				e.printStackTrace();
 			}
 		}
-
+		
+		System.out.println("추첨 시작");
 		while (raffle.size() < 6) {
 			int num = parseLotto.get((int) (Math.random() * parseLotto.size()));
 			if (raffle.add(num)) {
@@ -119,6 +122,11 @@ public class Lotto {
 				break;
 			}
 		}
+		List<Integer> raffleResult = new ArrayList<>(raffle);
+		Collections.sort(raffleResult);
+		
+		System.out.println("추첨 결과 : " + raffleResult);
+		System.out.println("보너스 숫자 : " + bonus);
 	}
 
 	public List<Set<Integer>> selectLotto(int input) {
@@ -167,7 +175,6 @@ public class Lotto {
 			parseLotto.add(Integer.valueOf(String.valueOf(object.get("drwtNo" + (i + 1)))));
 		}
 		parseLotto.add(Integer.valueOf(String.valueOf(object.get("bnusNo"))));
-
 		return parseLotto;
 	}
 }
