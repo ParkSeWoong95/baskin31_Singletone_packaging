@@ -65,12 +65,12 @@ public class NumberBaseball{
     		  if(iUserService.addPoint(value) == 1){
     		      
     			  System.out.println("게임 START!!");
-    			  if (chk(answer) <= 5){
+    			  if (chk(answer) <= 10){
     				  Map<String, Object> plus = new HashMap<>();
     	    		  plus.put("user_id", user.getId());
     	    		  plus.put("user_point", 2000);
     	    		  if(iUserService.addPoint(plus) == 1){
-        				  System.out.println("!! 정답 시도 횟수가 5번 이하이므로 2000포인트를 지급합니다 !!");
+        				  System.out.println("!! 정답 시도 횟수가 10번 이하이므로 2000포인트를 지급합니다 !!");
     	    		  }else{
     	    			  System.out.println("포인트 지급 실패");
     	    		  }
@@ -107,12 +107,14 @@ public class NumberBaseball{
    
    public String input(){
       System.out.println("------------------------------------");
-      System.out.println("정답을 입력해 주세요.");
+      System.out.println("정답을 입력해 주세요.(숫자 4자리)");
       Scanner sc = new Scanner(System.in);
       while(true){
     	  String input = sc.next();
     	  if(input.length() != 4){
     		 System.out.println("0~9 사이의 숫자 4자리를 입력해 주세요.");
+    	  }else if(input.charAt(0) == '0'){
+    		  System.out.println("첫번째 자리에는 0이 올 수 없습니다. 다시 입력해 주세요.");
     	  }else{
     		  try{
     			  Integer.parseInt(input);
