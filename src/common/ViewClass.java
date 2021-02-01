@@ -1388,7 +1388,7 @@ public class ViewClass {
 			System.out.println("--------------------");
 			System.out.println("[ 1 ] 학재 게임");
 			System.out.println("[ 2 ] 세웅 게임");
-			System.out.println("[ 3 ] 예진 게임");
+			System.out.println("[ 3 ] 숫자야구 게임");
 			System.out.println("[ 0 ] 로그아웃");
 			System.out.println("--------------------");
 
@@ -1408,7 +1408,7 @@ public class ViewClass {
 				 sewoong();
 				break;
 			case 3:
-				yejin();
+				numberBaseball();
 				break;
 			default:
 				message = "올바르지 않은 입력입니다.";
@@ -1416,7 +1416,7 @@ public class ViewClass {
 		}
 	}
 	
-	private void yejin() {
+	private void numberBaseball() {
 		// TODO Auto-generated method stub
 		
 	}
