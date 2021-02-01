@@ -53,17 +53,14 @@ public class NumberBaseball{
       while(true){
     	  String input = sc.next();
     	  if(input.length() != 4){
-    		 System.out.println("0~9 사이의 숫자 4자리를 입력해 주세요.1");
+    		 System.out.println("0~9 사이의 숫자 4자리를 입력해 주세요.");
     	  }else{
-    		  for(int i=0; i<input.length(); i++){
-    			  if(!('0' <= input.charAt(i) && input.charAt(i) <= '9')){
-    				  System.out.println("0~9 사이의 숫자 4자리를 입력해 주세요."); 
-    				  break;
-    			  }
-  			  sc.next();
-
+    		  try{
+    			  Integer.parseInt(input);
+    			  return input;
+    		  }catch(Exception e){
+    			  System.out.println("숫자만 입력해 주세요.");
     		  }
-    		  return input;
     	  }
       }
 //      if(input.charAt(i) )
