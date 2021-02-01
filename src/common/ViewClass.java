@@ -1392,7 +1392,7 @@ public class ViewClass {
 			System.out.println("[ 1 ] 세웅 게임");
 			System.out.println("[ 2 ] Lotto");
 			System.out.println("[ 3 ] 숫자야구 게임");
-			System.out.println("[ 0 ] 로그아웃");
+			System.out.println("[ 0 ] 뒤로가기");
 			System.out.println("--------------------");
 
 			if (!"".equals(message)) {
@@ -1441,6 +1441,7 @@ public class ViewClass {
 	 */
 	private void userNotifyView() {
 		List<NotifyVO> notifyList = iNotifyService.selectAllNotify();
+	
 		while (true) {
 			System.out.println();
 			System.out.println("♡♥♡♥♡♥♡♥♡♥♡♥♡♥♡♥♡♥♡♥♡♥♡♥♡♥♡♥♡♥♡♥♡♥");

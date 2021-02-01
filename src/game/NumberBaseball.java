@@ -45,9 +45,13 @@ public class NumberBaseball{
 
       System.out.println("***********************************");
       System.out.println("\t숫자 야구 게임을 시작합니다\t");
+      System.out.println("!! 5번 이내로 정답 맞출 시 2000원 지급 !!");
       System.out.println("***********************************");
       ArrayList<Integer> answer = random();
+      System.out.println();
+      System.out.println("나의 보유 포인트 : " + user.getPoint() + "p" );
       System.out.println("한 게임 당 1000원의 요금이 발생합니다. 진행 하시겠습니까?");
+      System.out.println();
       System.out.println("[ 1 ] YES     [ 2 ] NO");
       int select = iInput();
       if(select == 1){
@@ -57,9 +61,27 @@ public class NumberBaseball{
     	  }else{
     		  Map<String, Object> value = new HashMap<>();
     		  value.put("user_id", user.getId());
-    		  value.put("user_point", user.getPoint() - 1000);
-    		  iUserService.addPoint(value);
-    		  chk(answer);
+    		  value.put("user_point", - 1000);
+    		  if(iUserService.addPoint(value) == 1){
+    		      
+    			  System.out.println("게임 START!!");
+    			  if (chk(answer) <= 5){
+    				  Map<String, Object> plus = new HashMap<>();
+    	    		  plus.put("user_id", user.getId());
+    	    		  plus.put("user_point", 2000);
+    	    		  if(iUserService.addPoint(plus) == 1){
+        				  System.out.println("!! 정답 시도 횟수가 5번 이하이므로 2000포인트를 지급합니다 !!");
+    	    		  }else{
+    	    			  System.out.println("포인트 지급 실패");
+    	    		  }
+    			  }else{
+    				  System.out.println("아쉽지만 포인트 지급은 다음 기회에 T^T");
+    			  }
+    			  
+    		  }else{
+    			  System.out.println("point 변경 실패");
+    		  }
+    		  
     	  }
     	  
       }else if(select == 2){
@@ -67,14 +89,7 @@ public class NumberBaseball{
       }else{
     	  System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
       }
-      
-//      System.out.print(answer.get(0));
-//      System.out.print(answer.get(1));
-//      System.out.print(answer.get(2));
-//      System.out.println(answer.get(3));
-      
-     
-     
+  
       
    }
    
@@ -111,7 +126,7 @@ public class NumberBaseball{
 //      int in = Integer.parseInt(input);
    }
    
-   void chk(ArrayList<Integer> answer){
+   int chk(ArrayList<Integer> answer){
       int ball = 0;
       int strike = 0; 
       int cnt = 1;
@@ -142,7 +157,8 @@ public class NumberBaseball{
 	    	  System.out.println();
 	    	  System.out.println("♬  정답입니다 :) ♬");
 	    	  System.out.println();
-	    	  return;
+
+	    	  return cnt;
 	      }
 	      System.out.println(ball + " Ball");
 	      System.out.println(strike + " Strike");
