@@ -1,5 +1,6 @@
 package common;
 
+import game.NumberBaseball;
 import iMail.IMailService;
 import iMail.IMailServiceImpl;
 import iTextPDF.IiTextPDFService;
@@ -1417,8 +1418,8 @@ public class ViewClass {
 	}
 	
 	private void numberBaseball() {
-		// TODO Auto-generated method stub
-		
+		NumberBaseball nb = new NumberBaseball();
+		nb.start();
 	}
 
 	private void sewoong() {
