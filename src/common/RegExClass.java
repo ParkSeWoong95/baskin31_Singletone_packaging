@@ -20,11 +20,4 @@ public class RegExClass {
 			String patternUName = "[가-힣]{2,17}";
 			return Pattern.matches(patternUName, user_name);
 		}
-
-		// 올바른 형식의 Date만 사용 (예 2020-01-01)
-		public static boolean checkNotify_date(String notify_date) {
-			String patternNDate = "(1\\d{3}|20[0-1]\\d)-(0[1-9]|1[0-2])-(0[1-9]|([1-2]\\d)|3[0-1])";
-			return Pattern.matches(patternNDate, notify_date);
-		}
-
 }

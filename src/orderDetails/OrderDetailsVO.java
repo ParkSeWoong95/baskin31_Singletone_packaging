@@ -28,11 +28,4 @@ public class OrderDetailsVO {
 	public void setIcecream_seq(int icecream_seq) {
 		this.icecream_seq = icecream_seq;
 	}
-
-	@Override
-	public String toString() {
-		return "OrderDetailsVO [seq=" + seq + ", order_seq=" + order_seq
-				+ ", icecream_seq=" + icecream_seq + "]";
-	}
-	
 }

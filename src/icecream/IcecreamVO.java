@@ -29,9 +29,4 @@ public class IcecreamVO {
 	public void setActivate(boolean isActivate) {
 		this.isActivate = isActivate;
 	}
-	@Override
-	public String toString() {
-		return "IcecreamVO [seq=" + seq + ", kinds=" + kinds + ", stock="
-				+ stock + ", isActivate=" + isActivate + "]";
-	}
 }
