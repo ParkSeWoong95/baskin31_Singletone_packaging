@@ -45,9 +45,13 @@ public class NumberBaseball{
 
       System.out.println("***********************************");
       System.out.println("\t숫자 야구 게임을 시작합니다\t");
-      System.out.println("!! 5번 이내로 정답 맞출 시 2000원 지급 !!");
+      System.out.println("!! 10번 이내로 정답 맞출 시 2000원 지급 !!");
       System.out.println("***********************************");
       ArrayList<Integer> answer = random();
+      System.out.print("정답 : " + answer.get(0));
+      System.out.print("정답 : " + answer.get(1));
+      System.out.print("정답 : " + answer.get(2));
+      System.out.println("정답 : " + answer.get(3));
       System.out.println();
       System.out.println("나의 보유 포인트 : " + user.getPoint() + "p" );
       System.out.println("한 게임 당 1000원의 요금이 발생합니다. 진행 하시겠습니까?");
@@ -65,12 +69,12 @@ public class NumberBaseball{
     		  if(iUserService.addPoint(value) == 1){
     		      
     			  System.out.println("게임 START!!");
-    			  if (chk(answer) <= 5){
+    			  if (chk(answer) <= 10){
     				  Map<String, Object> plus = new HashMap<>();
     	    		  plus.put("user_id", user.getId());
     	    		  plus.put("user_point", 2000);
     	    		  if(iUserService.addPoint(plus) == 1){
-        				  System.out.println("!! 정답 시도 횟수가 5번 이하이므로 2000포인트를 지급합니다 !!");
+        				  System.out.println("!! 정답 시도 횟수가 10번 이하이므로 2000포인트를 지급합니다 !!");
     	    		  }else{
     	    			  System.out.println("포인트 지급 실패");
     	    		  }
@@ -93,11 +97,17 @@ public class NumberBaseball{
       
    }
    
-   //임의의 중복되지 않은 3개의 숫자 생성 (0~9까지의 난수)
+   //임의의 중복되지 않은 4개의 숫자 생성 (0~9까지의 난수)
    public ArrayList<Integer> random(){
       HashSet<Integer> ans = new HashSet<>();
+      int cnt = 0;
       while(ans.size() < 4){
-         ans.add((int)(Math.random() * 10));
+    	  if(cnt == 0){
+    		  ans.add((int)(Math.random() * 9 + 1));
+    		  continue;
+    	  }
+    	  ans.add((int)(Math.random() * 10));
+         cnt ++;
       }
       ArrayList<Integer> answer = new ArrayList<>(ans);
       return answer;
@@ -107,12 +117,14 @@ public class NumberBaseball{
    
    public String input(){
       System.out.println("------------------------------------");
-      System.out.println("정답을 입력해 주세요.");
+      System.out.println("정답을 입력해 주세요.(숫자 4자리)");
       Scanner sc = new Scanner(System.in);
       while(true){
     	  String input = sc.next();
     	  if(input.length() != 4){
     		 System.out.println("0~9 사이의 숫자 4자리를 입력해 주세요.");
+    	  }else if(input.charAt(0) == '0'){
+    		  System.out.println("첫번째 자리에는 0이 올 수 없습니다. 다시 입력해 주세요.");
     	  }else{
     		  try{
     			  Integer.parseInt(input);
@@ -122,8 +134,7 @@ public class NumberBaseball{
     		  }
     	  }
       }
-//      if(input.charAt(i) )
-//      int in = Integer.parseInt(input);
+
    }
    
    int chk(ArrayList<Integer> answer){
