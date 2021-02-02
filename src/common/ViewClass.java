@@ -197,7 +197,7 @@ public class ViewClass {
 				user.setName(scanName());
 				continue;
 			} else if (user.getPw() == null) {
-				user.setPw(scanPw());
+				user.setPw(AES256.AES_Encode(scanPw()));
 				continue;
 			} else if (user.getPoint() == -1) {
 				user.setPoint(scanPoint());
