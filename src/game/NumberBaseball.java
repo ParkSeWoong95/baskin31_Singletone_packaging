@@ -120,6 +120,10 @@ public class NumberBaseball{
       while(true){
     	  int cnt = 0;
     	  String input = sc.next();
+    	  if(Integer.parseInt(input) <= 1000){
+    		  System.out.println("양수만 입력하여 주세요.");
+    		  continue;
+    	  }
     	  Set<Character> unique = new HashSet<>();
     	  for(int i=0; i<input.length(); i++){
     		  if(!unique.add(input.charAt(i))){
