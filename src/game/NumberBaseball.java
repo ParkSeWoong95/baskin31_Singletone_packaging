@@ -121,12 +121,12 @@ public class NumberBaseball{
       System.out.println("정답을 입력해 주세요.(숫자 4자리)");
       Scanner sc = new Scanner(System.in);
       while(true){
+    	  int cnt = 0;
     	  String input = sc.next();
     	  Set<Character> unique = new HashSet<>();
     	  for(int i=0; i<input.length(); i++){
     		  if(!unique.add(input.charAt(i))){
-    			  System.out.println("서로 겹치는 숫자는 입력할 수 없습니다. 다시 입력해 주세요.");
-    			  break;
+    			  cnt++;
     		  }
     	  }
     	  
@@ -134,6 +134,8 @@ public class NumberBaseball{
     		 System.out.println("0~9 사이의 숫자 4자리를 입력해 주세요.");
     	  }else if(input.charAt(0) == '0'){
     		  System.out.println("첫번째 자리에는 0이 올 수 없습니다. 다시 입력해 주세요.");
+    	  }else if(cnt != 0){
+    		  System.out.println("중복된 숫자가 존재합니다. 다시 입력해 주세요.");
     	  }else{
     		  try{
     			  Integer.parseInt(input);
