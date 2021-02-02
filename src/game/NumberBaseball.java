@@ -45,9 +45,13 @@ public class NumberBaseball{
 
       System.out.println("***********************************");
       System.out.println("\t숫자 야구 게임을 시작합니다\t");
-      System.out.println("!! 5번 이내로 정답 맞출 시 2000원 지급 !!");
+      System.out.println("!! 10번 이내로 정답 맞출 시 2000원 지급 !!");
       System.out.println("***********************************");
       ArrayList<Integer> answer = random();
+      System.out.print("정답 : " + answer.get(0));
+      System.out.print("정답 : " + answer.get(1));
+      System.out.print("정답 : " + answer.get(2));
+      System.out.println("정답 : " + answer.get(3));
       System.out.println();
       System.out.println("나의 보유 포인트 : " + user.getPoint() + "p" );
       System.out.println("한 게임 당 1000원의 요금이 발생합니다. 진행 하시겠습니까?");
@@ -96,8 +100,14 @@ public class NumberBaseball{
    //임의의 중복되지 않은 4개의 숫자 생성 (0~9까지의 난수)
    public ArrayList<Integer> random(){
       HashSet<Integer> ans = new HashSet<>();
+      int cnt = 0;
       while(ans.size() < 4){
-         ans.add((int)(Math.random() * 10));
+    	  if(cnt == 0){
+    		  ans.add((int)(Math.random() * 9 + 1));
+    		  continue;
+    	  }
+    	  ans.add((int)(Math.random() * 10));
+         cnt ++;
       }
       ArrayList<Integer> answer = new ArrayList<>(ans);
       return answer;
