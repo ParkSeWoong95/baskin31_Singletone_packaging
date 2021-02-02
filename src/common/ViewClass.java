@@ -435,6 +435,9 @@ public class ViewClass {
 		if(iUserService.checkId(userId)){
 			System.out.println("해당 아이디로 가입한 내역이 없습니다.");
 			return;
+		}else if(iUserService.selectUser(userId).isActivate() == false){
+			System.out.println("탈퇴한 회원 입니다. 다시 가입해 주세요.");
+			return;
 		}
 		String newPw = getRandomPassword();
 		
