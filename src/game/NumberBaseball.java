@@ -49,10 +49,7 @@ public class NumberBaseball{
       System.out.println("!! 10번 이내로 정답 맞출 시 2000원 지급 !!");
       System.out.println("***********************************");
       ArrayList<Integer> answer = random();
-      System.out.print("정답 : " + answer.get(0));
-      System.out.print("정답 : " + answer.get(1));
-      System.out.print("정답 : " + answer.get(2));
-      System.out.println("정답 : " + answer.get(3));
+
       System.out.println();
       System.out.println("나의 보유 포인트 : " + user.getPoint() + "p" );
       System.out.println("한 게임 당 1000원의 요금이 발생합니다. 진행 하시겠습니까?");
