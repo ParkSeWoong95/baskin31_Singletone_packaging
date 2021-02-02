@@ -1766,11 +1766,11 @@ public class ViewClass {
 			if (orderList.size() == 0) {
 				System.out.println("주문 내역이 없습니다.");
 			}
+			System.out.println();
+			System.out.println(" ☞ 번호를 눌러 정보 확인");
+			System.out.println("===================");
 			for (int i = 0; i < orderList.size(); i++) {
 				SizeVO size = iSizeService.selectSize(orderList.get(i).getSize_seq());
-				System.out.println();
-				System.out.println(" ☞ 번호를 눌러 정보 확인");
-				System.out.println("===================");
 				System.out.print("[ " + (i + 1) + " ] " + size.getName() + "  " + size.getPrice() + "원 ");
 				if (orderList.get(i).isRefund())
 					System.out.print(" - 환불됨");
