@@ -78,7 +78,10 @@ public class ViewClass {
 			try {
 				Scanner scanner = new Scanner(System.in);
 				input = scanner.nextInt();
-				break;
+				if (input >= 0) {
+					break;
+				}
+				System.out.println("음수가 올 수 없습니다.");
 			} catch (Exception e) {
 				System.out.println();
 				System.out.println("숫자만 입력해주세요.");
